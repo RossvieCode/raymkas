@@ -7,7 +7,7 @@
    Une seule boucle requestAnimationFrame pour la carte et la parallaxe.
    =================================================================== */
 (() => {
-  const {SITE, UPCOMING = [], STOPS, STATS, CREATOR, FORMULAS, GOOD_TO_KNOW, ORIGINS, MAP_LABELS, MAP_DATA: MAP} = window;
+  const {SITE, NEXT, STOPS, STATS, CREATOR, FORMULAS, GOOD_TO_KNOW, ORIGINS, MAP_LABELS, MAP_DATA: MAP} = window;
   const PTS = Object.assign({}, MAP.pts, window.MAP_PTS);
   const $ = (s, el = document) => el.querySelector(s);
   const NS = 'http://www.w3.org/2000/svg';
@@ -91,42 +91,14 @@
     setTimeout(() => { wordIdx = (wordIdx + 1) % words.length; wordEl.classList.remove('out'); showWord(words[wordIdx]); }, 380);
   }, 2600);
 
-  /* ---------------- prochaine sortie ---------------- */
-  const ARROW = '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const parseDay = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
-  const trips = UPCOMING.map(t => ({...t, day: parseDay(t.date)})).filter(t => t.day >= today).sort((a, b) => a.day - b.day);
-  if (trips.length) {
-    const fmtDay = (d, o) => d.toLocaleDateString('fr-FR', o);
-    const countdown = d => {
-      const n = Math.round((d - today) / 864e5);
-      return n === 0 ? 'C’est aujourd’hui' : n === 1 ? 'C’est demain' : `Dans ${n} jours`;
-    };
-    const t0 = trips[0];
-    const chip = $('#nextChip');
-    chip.innerHTML = `<span class="chip-dot" aria-hidden="true"></span>
-      <span class="chip-txt"><small>Prochaine sortie</small><b>${esc(t0.title)} · ${fmtDay(t0.day, {day: 'numeric', month: 'short'})} · ${esc(t0.price)}</b></span>${ARROW}`;
-    chip.hidden = false;
-    $('#nextList').innerHTML = trips.map(t => {
-      const longDate = fmtDay(t.day, {weekday: 'long', day: 'numeric', month: 'long'});
-      const msg = o => `Bonjour ${SITE.brand}, je veux réserver ma place pour ${t.title} le ${longDate} (${t.price}), départ de ${o}.`;
-      return `<article class="trip reveal">
-        <figure class="trip-photo">
-          <img src="${t.photo}" srcset="${t.photo.replace('.jpg', '-sm.jpg')} 720w, ${t.photo} 1200w" sizes="(min-width: 900px) 420px, 92vw" alt="${esc(t.photoAlt || t.title)}" loading="lazy" decoding="async">
-          <span class="trip-date"><b>${t.day.getDate()}</b><span>${esc(fmtDay(t.day, {month: 'short'}).replace('.', ''))}</span></span>
-        </figure>
-        <div class="trip-body">
-          <span class="caps trip-count">${countdown(t.day)}</span>
-          <h3 class="display trip-name">${esc(t.title)}</h3>
-          <p class="trip-when">${esc(longDate.charAt(0).toUpperCase() + longDate.slice(1))} · Départ de ${t.origins.map(esc).join(' et ')}</p>
-          <p class="trip-text">${esc(t.text)}</p>
-          <div class="trip-price"><b class="display">${esc(t.price)}</b><span>${esc(t.priceNote)}</span></div>
-          <ul class="trip-inc">${t.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
-          <div class="trip-cta">${t.origins.map(o => `<a class="btn btn-sun" href="${wa(msg(o))}" target="_blank" rel="noopener">Réserver depuis ${esc(o)}</a>`).join('')}</div>
-        </div>
-      </article>`;
-    }).join('');
-    $('#prochaine').hidden = false;
+  /* ---------------- prochaine sortie : bandeau discret en haut du hero ---------------- */
+  const nextTrip = NEXT && NEXT.trips[0];
+  if (nextTrip) {
+    const ann = $('#announce');
+    ann.href = NEXT.page;
+    ann.innerHTML = `<span class="ann-dot" aria-hidden="true"></span><span>Prochaine sortie : <b>${esc(nextTrip.title)}, ${esc(NEXT.shortDate(nextTrip))}</b></span><span class="ann-go">Voir</span>`;
+    ann.hidden = false;
+    $('#hero').classList.add('has-announce');
   }
 
   /* ---------------- chiffres ---------------- */
@@ -204,6 +176,12 @@
         <a class="btn btn-solid" href="${wa(`Bonjour ${SITE.brand}, je suis intéressé(e) par l’expérience ${s.title}.`)}" target="_blank" rel="noopener">Réserver ${esc(s.title)}</a>
       </div>
     </article>`).join('');
+  // fiche de l'expérience qui a une sortie prévue : petit lien vers la page de la sortie
+  if (NEXT) NEXT.trips.forEach(t => {
+    const actions = document.querySelector(`.stop[data-key="${t.key}"] .actions`);
+    if (!actions || actions.querySelector('.stop-next')) return;
+    actions.insertAdjacentHTML('beforeend', `<a class="stop-next" href="${NEXT.page}"><span class="ann-dot" aria-hidden="true"></span>Prochaine sortie le ${esc(NEXT.shortDate(t))} · ${esc(t.price)}</a>`);
+  });
   document.querySelectorAll('.shot img').forEach(img => {
     img.addEventListener('error', () => { img.parentNode.classList.add('missing'); img.remove(); });
   });

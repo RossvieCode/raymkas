@@ -10,7 +10,9 @@ window.SITE = {
   /* Photos de fond du hero (diaporama). srcWide/posWide : variante pour écrans larges (≥ 900 px). */
   heroSlides: [
     {src: 'assets/img/hero-lac.jpg', pos: '52% center'},        // lac Kivu : l'île vue d'en haut
+    {src: 'assets/img/hero-bateau.jpg', pos: 'center 32%'},     // Kibuye : voyageuses souriantes dans la pirogue
     {src: 'assets/img/hero-girafes.jpg', pos: 'center 45%'},   // Akagera : face aux girafes
+    {src: 'assets/img/hero-groupe.jpg', pos: 'center 40%'},     // le groupe au sommet avec le drapeau de la RD Congo
     {src: 'assets/img/hero-chateau.jpg', pos: '56% center'},      // Kibuye : le château et son escalier au tapis rouge
   ],
   whatsappNumber: '243976812879',              // numéro WhatsApp, chiffres seulement, avec l'indicatif
@@ -24,6 +26,7 @@ window.SITE = {
    s'il n'y en a plus, la section et le bouton du hero sont masqués.            */
 window.UPCOMING = [
   {
+    key: 'nyungwe',               // même clé que l'expérience (carte + lien dans sa fiche)
     title: 'Nyungwe',
     date: '2026-11-29',
     price: '55 $',

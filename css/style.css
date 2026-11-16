@@ -105,24 +105,28 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 @keyframes rise{from{transform:translateY(70%);opacity:0;filter:blur(8px)}to{transform:none;opacity:1;filter:none}}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-/* ---------- bouton « prochaine sortie » du hero ---------- */
-.next-chip{display:inline-flex;align-items:center;gap:12px;margin:0 auto 18px;padding:9px 16px 9px 14px;border-radius:16px;
-  background:var(--sun);color:var(--ink);text-align:left;box-shadow:0 10px 34px rgba(0,0,0,.35);
-  animation:fade 1s .15s both;transition:transform .3s var(--ease),box-shadow .3s}
-.next-chip[hidden]{display:none}
-.next-chip:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.45)}
-.next-chip:active{transform:scale(.97)}
-.chip-txt{display:flex;flex-direction:column;gap:3px}
-.chip-txt small{font:800 10px/1 var(--wide);font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;opacity:.72}
-.chip-txt b{font-size:15px;font-weight:800;font-stretch:112%;white-space:nowrap}
-.chip-dot{position:relative;width:10px;height:10px;flex-shrink:0;border-radius:50%;background:var(--ink)}
-.chip-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ink);animation:ping 1.8s var(--ease) infinite}
-@keyframes ping{from{transform:scale(1);opacity:.6}to{transform:scale(2.6);opacity:0}}
+/* ---------- bandeau « prochaine sortie » (haut du hero) ---------- */
+.announce{position:absolute;inset:0 0 auto;z-index:4;display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:calc(env(safe-area-inset-top,0px) + 40px);padding:env(safe-area-inset-top,0px) 16px 0;
+  font-size:12.5px;font-weight:600;font-stretch:112%;color:var(--white);
+  background:rgba(11,20,22,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--fill-soft);
+  animation:fade 1s .9s both;transition:background-color .3s}
+.announce[hidden]{display:none}
+.announce:hover{background:rgba(11,20,22,.7)}
+.announce b{font-weight:800}
+.ann-go{font:800 10.5px/1 var(--wide);font-stretch:125%;letter-spacing:.16em;text-transform:uppercase;color:var(--sun);
+  padding-bottom:2px;border-bottom:1.5px solid currentColor}
+.ann-dot{position:relative;width:7px;height:7px;flex-shrink:0;border-radius:50%;background:var(--sun)}
+.ann-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--sun);animation:ping 2.2s var(--ease) infinite}
+@keyframes ping{from{transform:scale(1);opacity:.7}to{transform:scale(2.8);opacity:0}}
+.hero.has-announce .hero-top{padding-top:calc(env(safe-area-inset-top,0px) + 52px)}
+
+/* lien discret dans la fiche de l'expérience */
+.stop-next{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;font-size:13.5px;font-weight:700;font-stretch:112%;
+  color:var(--sun);border-bottom:1.5px solid transparent;transition:border-color .3s}
+.stop-next:hover{border-bottom-color:currentColor}
 
 /* ---------- prochaine sortie ---------- */
-.next{position:relative;z-index:2;padding:64px 0 24px;background:var(--bg)}
-.next[hidden]{display:none}
-.next h2{font-size:clamp(46px,13vw,96px);line-height:.9}
 .trip{margin-top:26px;border-radius:24px;overflow:hidden;background:var(--fill-faint);border:1px solid var(--line)}
 .trip-photo{position:relative;aspect-ratio:4/3;margin:0;background:var(--surface-2)}
 .trip-photo img{width:100%;height:100%;object-fit:cover}
@@ -144,12 +148,6 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .trip-cta{display:grid;gap:10px;margin-top:24px}
 .trip-cta .btn{height:54px}
 @media (min-width:600px) and (max-width:899px){.trip-cta{grid-template-columns:1fr 1fr}}
-@media (min-width:900px){
-  .next .wrap{max-width:1040px}
-  .trip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
-  .trip-photo{aspect-ratio:auto;min-height:100%}
-  .trip-body{padding:34px}
-}
 
 /* ---------- chiffres ---------- */
 .stats{position:relative;z-index:2;padding:48px 0 40px;background:var(--bg)}
@@ -331,4 +329,29 @@ footer .caps{margin-top:16px;font-size:11px;color:var(--muted)}
   :root{transition:none}
   *,*::before,*::after{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
+}
+
+/* =========================================================
+   Page « Prochaine sortie » (prochaine-sortie.html)
+   ========================================================= */
+.s-top{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:calc(env(safe-area-inset-top,0px) + 18px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.s-top .toplink{gap:8px}
+@media (min-width:600px){.s-top{padding-left:28px;padding-right:28px}}
+.s-head{padding-top:36px}
+.s-head h1{font-size:clamp(52px,15vw,120px);line-height:.88;margin-top:10px}
+.s-map{max-width:640px;margin:18px auto 0;padding:0 8px}
+.s-map svg{display:block;width:100%;height:auto;overflow:hidden;
+  -webkit-mask-image:radial-gradient(75% 70% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(75% 70% at 50% 50%,#000 60%,transparent 100%)}
+.s-trips{padding:8px 0 24px}
+.s-trips .trip{margin-top:12px}
+.trip-empty .trip-text{margin-top:0;color:var(--white)}
+.s-more{padding:48px 0 72px;text-align:center}
+.s-more p{font-size:16px;line-height:1.5;font-weight:600;font-stretch:112%;color:var(--fg-soft)}
+.s-more-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+@media (min-width:900px){
+  .page-sortie .wrap{max-width:1040px}
+  .page-sortie .trip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+  .page-sortie .trip-photo{aspect-ratio:auto;min-height:100%}
+  .page-sortie .trip-body{padding:34px}
 }
