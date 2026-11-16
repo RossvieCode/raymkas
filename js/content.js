@@ -9,8 +9,8 @@ window.SITE = {
   intro: 'On s’occupe du transport, du guide et des photos. Toi, tu profites. Plus de 500 voyageurs sont déjà partis avec nous depuis janvier.',
   /* Photos de fond du hero (diaporama). srcWide/posWide : variante pour écrans larges (≥ 900 px). */
   heroSlides: [
-    {src: 'assets/img/lac-1.jpg', pos: 'center 62%'},          // lac : deux voyageuses face à l'île
-    {src: 'assets/img/hero-akagera.jpg', pos: 'center 40%'},   // Akagera : face aux girafes
+    {src: 'assets/img/hero-lac.jpg', pos: '52% center'},        // lac Kivu : l'île vue d'en haut
+    {src: 'assets/img/hero-girafes.jpg', pos: 'center 45%'},   // Akagera : face aux girafes
     {src: 'assets/img/hero-kibuye.jpg', pos: 'center 30%', srcWide: 'assets/img/hero-kibuye-wide.jpg', posWide: 'center 50%'},    // Kibuye : bras ouverts à l'avant du bateau, lac Kivu
   ],
   whatsappNumber: '243976812879',              // numéro WhatsApp, chiffres seulement, avec l'indicatif
@@ -72,10 +72,12 @@ window.STOPS = [
     tags: ['Collines', 'Vaches Inyambo', 'Tenue de berger'],
     photos: [
       {src: 'assets/img/bigogwe-1.jpg', alt: 'Un voyageur en tenue de berger à côté d’une vache Inyambo aux longues cornes'},
+      {src: 'assets/img/bigogwe-chevre.jpg', alt: 'Une voyageuse en couverture à carreaux et chapeau, un chevreau dans les bras'},
+      {src: 'assets/img/bigogwe-groupe.jpg', alt: 'Le groupe en tenue de berger : chapeaux, couvertures à carreaux, bottes vertes et bâtons'},
       {src: 'assets/img/bigogwe-2.jpg', alt: 'Groupe de voyageurs en couvertures à carreaux et chapeaux sur les collines'},
       {src: 'assets/img/bigogwe-3.jpg', alt: 'Deux voyageuses en chapeau et bâton de berger sur la colline'},
       {src: 'assets/img/bigogwe-4.jpg', alt: 'Voyageuses assises dans l’herbe, bottes vertes et bâtons de berger'},
-      {src: 'assets/img/bigogwe-5.jpg', alt: 'Séance photo sur les hauteurs de Bigogwe'},
+      {src: 'assets/img/bigogwe-photo.jpg', alt: 'Une voyageuse en chapeau prend son amie en photo sur la colline'},
     ],
   },
   {
@@ -84,11 +86,12 @@ window.STOPS = [
     text: 'Monte le grand escalier au tapis rouge d’un château blanc perché sur la colline, puis embarque pour une balade en bateau entre les îles du lac Kivu. Arrêt photo au panneau Rwanda – Kongo et pause sur les rochers, au bord de l’eau.',
     tags: ['Château', 'Bateau sur le lac', 'Îles'],
     photos: [
-      {src: 'assets/img/kibuye-1.jpg', alt: 'Escalier au tapis rouge menant à un château blanc à Kibuye'},
-      {src: 'assets/img/kibuye-2.jpg', alt: 'Groupe de voyageurs en gilets de sauvetage dans un bateau sur le lac Kivu'},
+      {src: 'assets/img/kibuye-chateau.jpg', pos: '55% center', alt: 'Le château blanc et son escalier au tapis rouge, sur la colline de Kibuye'},
+      {src: 'assets/img/kibuye-vaches.jpg', pos: '48% center', alt: 'Des vaches qui se baignent dans le lac Kivu, devant le bateau des voyageurs'},
+      {src: 'assets/img/kibuye-bateau.jpg', alt: 'Trois voyageuses souriantes en gilet de sauvetage dans une pirogue orange'},
+      {src: 'assets/img/kibuye-groupe.jpg', alt: 'Le groupe au sommet, sur les rochers, avec le drapeau de la RD Congo'},
       {src: 'assets/img/kibuye-3.jpg', alt: 'Une voyageuse les bras ouverts à l’avant du bateau'},
       {src: 'assets/img/kibuye-4.jpg', alt: 'Une voyageuse devant le panneau Rwanda – Kongo'},
-      {src: 'assets/img/kibuye-5.jpg', alt: 'Une voyageuse avec le drapeau de la RD Congo devant le panneau'},
       {src: 'assets/img/kibuye-6.jpg', alt: 'Trois voyageurs sur les rochers au bord du lac Kivu'},
     ],
   },
@@ -99,6 +102,7 @@ window.STOPS = [
     tags: ['Passerelle de la canopée', 'Tyrolienne jusqu’à 1 020 m', 'Cascade'],
     photos: [
       {src: 'assets/img/nyungwe-1.jpg', alt: 'Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe'},
+      {src: 'assets/img/nyungwe-passerelle.jpg', alt: 'Selfie du groupe sur la passerelle de la canopée'},
       {src: 'assets/img/nyungwe-2.jpg', alt: 'Le groupe au pied d’une grande cascade dans la forêt'},
       {src: 'assets/img/nyungwe-3.jpg', alt: 'Le groupe en casques et harnais au départ de la tyrolienne'},
       {src: 'assets/img/nyungwe-4.jpg', alt: 'Deux voyageurs devant la cascade'},
@@ -110,7 +114,7 @@ window.STOPS = [
     text: 'Le parc des « Big Five ». Tu parcours la savane à la rencontre des girafes et des antilopes, tu pique-niques face au lac, et tu repars avec ta photo souvenir dans le cadre du parc.',
     tags: ['Safari', 'Girafes', 'Pique-nique face au lac'],
     photos: [
-      {src: 'assets/img/akagera-1.jpg', alt: 'Un voyageur face à deux girafes dans la savane d’Akagera'},
+      {src: 'assets/img/akagera-girafes.jpg', alt: 'Un voyageur face à deux girafes dans la savane d’Akagera'},
       {src: 'assets/img/akagera-2.jpg', alt: 'Trois girafes sous un acacia dans le parc de l’Akagera'},
       {src: 'assets/img/akagera-3.jpg', alt: 'Deux antilopes cobes dans l’herbe verte de la savane'},
       {src: 'assets/img/akagera-4.jpg', alt: 'Un voyageur dans le cadre photo du parc, face au lac'},

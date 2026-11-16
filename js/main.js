@@ -151,7 +151,7 @@
         <span class="caps meta">${esc(s.meta)}</span>
       </div>
       <div class="strip" tabindex="0" aria-label="Photos de ${esc(s.title)}">
-        ${s.photos.map((p, i) => `<figure class="shot"><img src="${p.src}" srcset="${p.src.replace('.jpg', '-sm.jpg')} 720w, ${p.src} 1200w" sizes="(min-width: 700px) 370px, 82vw" alt="${esc(p.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
+        ${s.photos.map((p, i) => `<figure class="shot"><img src="${p.src}" srcset="${p.src.replace('.jpg', '-sm.jpg')} 720w, ${p.src} 1200w" sizes="(min-width: 700px) 370px, 82vw"${p.pos ? ` style="object-position:${p.pos}"` : ''} alt="${esc(p.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
       </div>
       <div class="strip-bar">
         <span class="caps strip-count"><b>01</b> / ${pad(s.photos.length)}</span>
