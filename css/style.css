@@ -336,13 +336,18 @@ footer .caps{margin-top:16px;font-size:11px;color:var(--muted)}
    ========================================================= */
 .s-top{display:flex;justify-content:space-between;align-items:center;gap:12px;
   padding:calc(env(safe-area-inset-top,0px) + 18px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
-.s-top .toplink{gap:8px}
+.s-top .toplink{gap:8px;white-space:nowrap}
+@media (max-width:479px){.s-top .tl-long{display:none}}
 @media (min-width:600px){.s-top{padding-left:28px;padding-right:28px}}
 .s-head{padding-top:36px}
 .s-head h1{font-size:clamp(52px,15vw,120px);line-height:.88;margin-top:10px}
 .s-map{max-width:640px;margin:18px auto 0;padding:0 8px}
 .s-map svg{display:block;width:100%;height:auto;overflow:hidden;
-  -webkit-mask-image:radial-gradient(75% 70% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(75% 70% at 50% 50%,#000 60%,transparent 100%)}
+  /* fondu sur les 4 bords : la carte se fond dans le fond, sans cadre visible */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent),linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent),linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+  mask-composite:intersect}
 .s-trips{padding:8px 0 24px}
 .s-trips .trip{margin-top:12px}
 .trip-empty .trip-text{margin-top:0;color:var(--white)}

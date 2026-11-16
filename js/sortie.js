@@ -51,7 +51,7 @@
     return `M${a}Q${mx - dy * 0.18},${my + dx * 0.18} ${b}`;
   };
   const labels = [
-    {t: 'RD Congo', x: x0 + 52, y: (y0 + y1) / 2},
+    {t: 'RD Congo', x: x0 + 95, y: (y0 + y1) / 2},
     {t: 'Lac Kivu', x: 262, y: 545, cls: 'water'},
     {t: 'Rwanda', x: x1 - 70, y: y0 + 40},
   ];
