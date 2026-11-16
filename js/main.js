@@ -334,7 +334,15 @@
     for (const el of stopEls) if (el.getBoundingClientRect().top < ref) pick = el.dataset.key;
     return pick;
   }
+  /* barre du navigateur (Safari, Chrome Android) : même couleur que la section en haut de l'écran */
   const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const BOTTOM_BG = getComputedStyle(document.documentElement).getPropertyValue('--surface-2').trim() || '#0e1f23';
+  const bottomStart = document.getElementById('know');
+  let barBg = SITE.overviewColor;
+  function updateBar() {
+    const c = bottomStart.getBoundingClientRect().top <= 0 ? BOTTOM_BG : barBg;
+    if (themeMeta.content !== c) { themeMeta.content = c; document.documentElement.style.backgroundColor = c; }
+  }
   function setState(key) {
     if (key === stateKey) return;
     stateKey = key;
@@ -348,7 +356,7 @@
     for (const k in pins) pins[k].g.classList.toggle('active', k === key || (!!active && ORIGINS.some(o => o.key === k)));
     const bgc = active ? active.color : SITE.overviewColor;
     document.documentElement.style.setProperty('--bg', bgc);
-    themeMeta.content = bgc;                       // barre du navigateur (Safari, Chrome Android) de la même couleur
+    barBg = bgc;
     hudNum.textContent = overview ? (key === 'end' ? pad(STOPS.length) : '00') : active.num;
     hudName.classList.add('swap');
     setTimeout(() => {
@@ -380,7 +388,7 @@
     cur.prog += (targetProg - cur.prog) * (reduced ? 1 : 1 - Math.exp(-dt * 2.6));
     // ne recalcule que si la page a défilé ou si la carte bouge encore (économise la batterie)
     const y = scrollY;
-    if (y !== lastY) { setState(pickState()); updateFloat(); if (!reduced) parallax(y); lastY = y; }
+    if (y !== lastY) { setState(pickState()); updateBar(); updateFloat(); if (!reduced) parallax(y); lastY = y; }
     const moving = Math.abs(target.x - cur.x) > .05 || Math.abs(target.y - cur.y) > .05
       || Math.abs(Math.log(target.z) - cur.lz) > .001 || Math.abs(targetProg - cur.prog) > .001;
     if (moving || dirty) { applyCam(); dirty = false; }
