@@ -38,26 +38,34 @@
   const slides = SITE.heroSlides.map((s, i) => {
     const img = new Image();
     img.alt = ''; img.decoding = 'async';
-    // variante paysage sur grand écran quand elle existe
-    const src = (wideScreen && s.srcWide) || s.src, pos = (wideScreen && s.posWide) || s.pos || 'center';
-    // la 1re photo tout de suite ; les suivantes une fois la page chargée (économise la data mobile)
-    if (i === 0) { img.fetchPriority = 'high'; img.src = src; }
-    else addEventListener('load', () => { img.src = src; }, {once: true});
+    // grand écran : variante paysage si elle existe ; téléphone : version légère (-sm)
+    const src = wideScreen ? (s.srcWide || s.src) : s.src.replace('.jpg', '-sm.jpg');
+    const pos = (wideScreen && s.posWide) || s.pos || 'center';
+    img.dataset.src = src;
     img.style.objectPosition = pos;
     img.className = 'slide' + (i === 0 ? ' on' : '');
-    img.onerror = () => img.remove();
+    img.onerror = () => { img.remove(); };
     heroBg.appendChild(img);
     return img;
   });
+  // 1re photo tout de suite (préchargée dans le <head>), les suivantes dès qu'elle est affichée
+  slides[0].fetchPriority = 'high';
+  slides[0].src = slides[0].dataset.src;
+  const loadRest = () => slides.slice(1).forEach(img => { img.src = img.dataset.src; });
+  if (slides[0].complete) loadRest(); else { slides[0].addEventListener('load', loadRest, {once: true}); slides[0].addEventListener('error', loadRest, {once: true}); }
+  const ready = img => img.isConnected && img.complete && img.naturalWidth > 0;
   bars.innerHTML = slides.map((_, i) => `<span class="bar${i === 0 ? ' on' : ''}"><i></i></span>`).join('');
   const barEls = [...bars.children];
   let slideIdx = 0;
   const SLIDE_MS = 3800;
   bars.style.setProperty('--slide-ms', SLIDE_MS + 'ms');
   function nextSlide() {
+    let nxt = (slideIdx + 1) % slides.length;
+    while (nxt !== slideIdx && !slides[nxt].isConnected) nxt = (nxt + 1) % slides.length;   // photo en erreur : on saute
+    if (nxt === slideIdx || !ready(slides[nxt])) return;   // photo pas encore arrivée : on garde l'actuelle
     slides[slideIdx].classList.remove('on'); barEls[slideIdx].classList.remove('on');
-    barEls.forEach((b, i) => b.classList.toggle('done', i < (slideIdx + 1) % slides.length));
-    slideIdx = (slideIdx + 1) % slides.length;
+    barEls.forEach((b, i) => b.classList.toggle('done', i < nxt));
+    slideIdx = nxt;
     slides[slideIdx].classList.add('on');
     void barEls[slideIdx].offsetWidth;            // relance l'animation de la barre
     barEls[slideIdx].classList.add('on');
@@ -78,16 +86,6 @@
     wordEl.classList.add('out');
     setTimeout(() => { wordIdx = (wordIdx + 1) % words.length; wordEl.classList.remove('out'); showWord(words[wordIdx]); }, 380);
   }, 2600);
-
-  /* ---------------- ruban ---------------- */
-  const ribbon = [...STOPS.map(s => s.title), ...STATS.origins.names.map(n => `Départ de ${n}`), 'Transport compris', 'Photographe inclus', '500+ voyageurs'];
-  const ribbonHTML = ribbon.map(t => `<span>${esc(t)}</span><i class="sep"></i>`).join('');
-  const marquee = $('#marquee');
-  marquee.innerHTML = `<div class="marquee-set">${ribbonHTML}</div><div class="marquee-set">${ribbonHTML}</div>`;
-  // le ruban avance seulement quand on fait défiler la page (pas de mouvement autonome)
-  let ribbonW = 0;
-  const measureRibbon = () => { ribbonW = marquee.firstElementChild.offsetWidth; };
-  const moveRibbon = y => { if (ribbonW) marquee.style.transform = `translate3d(${-((y * 0.45) % ribbonW)}px,0,0)`; };
 
   /* ---------------- chiffres ---------------- */
   // Odomètre : chaque chiffre est une colonne qui roule jusqu'à sa valeur
@@ -167,6 +165,14 @@
   document.querySelectorAll('.shot img').forEach(img => {
     img.addEventListener('error', () => { img.parentNode.classList.add('missing'); img.remove(); });
   });
+
+  // galerie : on charge toutes ses photos (même celles hors écran à droite) un peu avant qu'elle arrive à l'écran
+  const warm = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+    warm.unobserve(e.target);
+  }), {rootMargin: '150% 0px'});
+  document.querySelectorAll('.stop').forEach(s => warm.observe(s));
 
   /* carrousels photo */
   document.querySelectorAll('.stop').forEach(stop => {
@@ -365,7 +371,7 @@
     cur.prog += (targetProg - cur.prog) * (reduced ? 1 : 1 - Math.exp(-dt * 2.6));
     // ne recalcule que si la page a défilé ou si la carte bouge encore (économise la batterie)
     const y = scrollY;
-    if (y !== lastY) { setState(pickState()); updateFloat(); if (!reduced) { parallax(y); moveRibbon(y); } lastY = y; }
+    if (y !== lastY) { setState(pickState()); updateFloat(); if (!reduced) parallax(y); lastY = y; }
     const moving = Math.abs(target.x - cur.x) > .05 || Math.abs(target.y - cur.y) > .05
       || Math.abs(Math.log(target.z) - cur.lz) > .001 || Math.abs(targetProg - cur.prog) > .001;
     if (moving || dirty) { applyCam(); dirty = false; }
@@ -396,7 +402,6 @@
     const v = fr(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v;
   }
 
-  addEventListener('resize', () => { resize(); measureRibbon(); dirty = true; lastY = -1; });
-  document.fonts?.ready.then(() => { measureRibbon(); lastY = -1; });
-  resize(); measureRibbon(); applyCam(); requestAnimationFrame(frame);
+  addEventListener('resize', () => { resize(); dirty = true; lastY = -1; });
+  resize(); applyCam(); requestAnimationFrame(frame);
 })();
