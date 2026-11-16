@@ -22,7 +22,11 @@
   document.querySelectorAll('[data-brand]').forEach(el => el.textContent = SITE.brand);
   document.querySelectorAll('[data-whatsapp]').forEach(el => { el.href = wa(DEFAULT_MSG); el.target = '_blank'; el.rel = 'noopener'; });
   document.querySelectorAll('[data-tiktok]').forEach(el => { el.href = CREATOR.url; el.target = '_blank'; el.rel = 'noopener'; });
-  $('.foot-link').textContent = `${CREATOR.handle} sur TikTok`;
+  // logo TikTok (note de musique, avec ses deux reflets cyan et rose)
+  const TT_PATH = 'M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z';
+  const ttLogo = (cls = 'tt-logo') => `<svg class="${cls}" viewBox="-1.5 -1.5 27 27" aria-hidden="true"><path d="${TT_PATH}" fill="#25f4ee" transform="translate(-.9 -.9)"/><path d="${TT_PATH}" fill="#fe2c55" transform="translate(.9 .9)"/><path d="${TT_PATH}" fill="currentColor"/></svg>`;
+  $('.foot-link').innerHTML = `${ttLogo()}<span>${esc(CREATOR.handle)} sur TikTok</span>`;
+  $('.toplink[data-tiktok]').innerHTML = `${ttLogo()}<span>TikTok</span>`;
   $('#heroLead').textContent = SITE.heroLead;
   $('#heroSr').textContent = STOPS.map(s => s.title).join(', ');
   $('#heroIntro').textContent = SITE.intro;
@@ -213,7 +217,9 @@
 
   $('#creatorQuote').textContent = `« ${CREATOR.quote} »`;
   $('#creatorText').textContent = CREATOR.text;
-  $('#creatorBtn').textContent = `Suivre ${CREATOR.handle}`;
+  $('#creatorBtn').innerHTML = `<span class="tt-badge">${ttLogo()}</span>
+    <span class="tt-txt"><b>Suivre sur TikTok</b><small>${esc(CREATOR.handle)}</small></span>
+    <svg class="tt-arrow" viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
   $('#creatorStats').innerHTML = CREATOR.stats.map(s => `
     <div class="cstat"><span class="display cstat-n" data-n="${s.n}" data-d="${s.decimals}" data-suffix="${esc(s.suffix)}">${fmt(s.n, s.decimals)}${esc(s.suffix)}</span>
     <span class="caps stat-l">${esc(s.label)}</span></div>`).join('');
@@ -328,6 +334,7 @@
     for (const el of stopEls) if (el.getBoundingClientRect().top < ref) pick = el.dataset.key;
     return pick;
   }
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
   function setState(key) {
     if (key === stateKey) return;
     stateKey = key;
@@ -339,7 +346,9 @@
     stopEls.forEach(el => el.classList.toggle('active', el.dataset.key === key));
     const active = STOPS[idx];
     for (const k in pins) pins[k].g.classList.toggle('active', k === key || (!!active && ORIGINS.some(o => o.key === k)));
-    document.documentElement.style.setProperty('--bg', active ? active.color : SITE.overviewColor);
+    const bgc = active ? active.color : SITE.overviewColor;
+    document.documentElement.style.setProperty('--bg', bgc);
+    themeMeta.content = bgc;                       // barre du navigateur (Safari, Chrome Android) de la même couleur
     hudNum.textContent = overview ? (key === 'end' ? pad(STOPS.length) : '00') : active.num;
     hudName.classList.add('swap');
     setTimeout(() => {
