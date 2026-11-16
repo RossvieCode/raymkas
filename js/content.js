@@ -132,6 +132,7 @@ window.STOPS = [
     tags: T(['Prairies', 'Vaches', 'Sud-Kivu'], ['Meadows', 'Cows', 'South Kivu']),
     photos: [
       {src: 'assets/img/kashusha-1.jpg', alt: T('Quatre voyageurs posent dans la prairie de Kashusha, des vaches et des eucalyptus derrière eux', 'Four travellers posing in the Kashusha meadow, with cows and eucalyptus behind them')},
+      {src: 'assets/img/kashusha-2.jpg', pos: '40% center', alt: T('Le groupe autour d’une table, sous un parasol, dans un jardin fleuri à Kashusha', 'The group around a table under a parasol, in a flowered garden in Kashusha')},
     ],
   },
   {
