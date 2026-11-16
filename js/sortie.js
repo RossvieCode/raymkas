@@ -12,9 +12,11 @@
   const wa = msg => `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(msg)}`;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  I18N.applyStatic('sortie.title', 'sortie.desc');
+  I18N.switchers();
   document.querySelectorAll('[data-brand]').forEach(el => el.textContent = SITE.brand);
   document.querySelectorAll('[data-whatsapp]').forEach(el => {
-    el.href = wa(`Bonjour ${SITE.brand}, je voudrais connaître les prochaines sorties.`); el.target = '_blank'; el.rel = 'noopener';
+    el.href = wa(t('sortie.msgInfo', {brand: SITE.brand})); el.target = '_blank'; el.rel = 'noopener';
   });
 
   const trips = NEXT.trips;
@@ -27,33 +29,33 @@
 
   /* ---------- aucune sortie annoncée ---------- */
   if (!t0) {
-    $('#sCount').textContent = 'Bientôt';
+    $('#sCount').textContent = t('sortie.soon');
     $('#sMapWrap').remove();
     $('#sTrips').innerHTML = `<div class="trip trip-empty"><div class="trip-body">
-      <p class="trip-text">Pas de sortie annoncée pour le moment. Écris-nous sur WhatsApp : on te prévient dès que les prochaines dates sont fixées.</p>
-      <div class="trip-cta"><a class="btn btn-sun" data-whatsapp>Être prévenu sur WhatsApp</a></div></div></div>`;
+      <p class="trip-text">${t('sortie.empty')}</p>
+      <div class="trip-cta"><a class="btn btn-sun" data-whatsapp>${t('sortie.notify')}</a></div></div></div>`;
     const b = $('#sTrips [data-whatsapp]');
-    b.href = wa(`Bonjour ${SITE.brand}, je voudrais être prévenu(e) des prochaines sorties.`); b.target = '_blank'; b.rel = 'noopener';
+    b.href = wa(t('sortie.msgNotify', {brand: SITE.brand})); b.target = '_blank'; b.rel = 'noopener';
     return;
   }
-  document.title = `${t0.title}, ${NEXT.longDate(t0).toLowerCase()} · ${SITE.brand}`;
+  document.title = `${t0.title}, ${NEXT.longDate(t0)} · ${SITE.brand}`;
   // au-dessus du titre : jour, destination, prix ; à côté : la date « 29 NOV »
-  $('#sCount').textContent = `${t0.day.toLocaleDateString('fr-FR', {weekday: 'long'})} · ${t0.title} · ${t0.price}`;
+  $('#sCount').textContent = `${t0.day.toLocaleDateString(LOCALE, {weekday: 'long'})} · ${t0.title} · ${t0.price}`;
   $('#sBadgeDay').textContent = t0.day.getDate();
   $('#sBadgeMonth').textContent = NEXT.monthShort(t0);
   // compte à rebours simple jusqu'au jour de la sortie
   const cd = $('#sCountdown');
-  cd.innerHTML = ['jours', 'h', 'min', 's'].map(l => `<span class="cd-u"><b class="display">00</b><small>${l}</small></span>`).join('');
+  cd.innerHTML = [t('sortie.days'), 'h', 'min', 's'].map(l => `<span class="cd-u"><b class="display">00</b><small>${l}</small></span>`).join('');
   const [cdD, cdH, cdM, cdS] = [...cd.querySelectorAll('b')], cdDLabel = cd.querySelector('small');
   const two = n => String(n).padStart(2, '0');
   let cdTimer = 0;
   function tick() {
     const ms = t0.day - Date.now();
-    if (ms <= 0) { clearInterval(cdTimer); cd.innerHTML = '<span class="cd-today">C’est aujourd’hui&nbsp;!</span>'; return; }
+    if (ms <= 0) { clearInterval(cdTimer); cd.innerHTML = `<span class="cd-today">${t('sortie.today')}</span>`; return; }
     const d = Math.floor(ms / 864e5), hh = Math.floor(ms / 36e5) % 24, mm = Math.floor(ms / 6e4) % 60, ss = Math.floor(ms / 1e3) % 60;
     cdD.textContent = two(d); cdH.textContent = two(hh); cdM.textContent = two(mm); cdS.textContent = two(ss);
-    cdDLabel.textContent = d > 1 ? 'jours' : 'jour';
-    cd.setAttribute('aria-label', `Départ dans ${d} jours et ${hh} heures`);
+    cdDLabel.textContent = d > 1 ? t('sortie.days') : t('sortie.day');
+    cd.setAttribute('aria-label', t('sortie.cdAria', {d, h: hh}));
   }
   tick();
   cdTimer = setInterval(tick, 1000);
@@ -63,14 +65,14 @@
   const dest = PTS[t0.key];
   const from = ORIGINS.filter(o => (t0.origins || []).some(n => n.toLowerCase() === o.key)), ORIG = from.length ? from : ORIGINS;
   const pts = [dest, ...ORIG.map(o => PTS[o.key])];
-  $('#sMap').setAttribute('aria-label', `Trajet depuis ${ORIG.map(o => o.title).join(' et ')} jusqu’à ${t0.title}`);
+  $('#sMap').setAttribute('aria-label', t('sortie.mapAria', {o: ORIG.map(o => o.title).join(t('sortie.and')), d: t0.title}));
   const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
   const x0 = Math.min(...xs) - 120, x1 = Math.max(...xs) + 150, y0 = Math.min(...ys) - 60, y1 = Math.max(...ys) + 60;
   svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
   const {curve, originPin, destPin} = window.MAPDRAW;
   const labels = [
-    {t: 'RD Congo', x: x0 + 95, y: (y0 + y1) / 2},
-    {t: 'Lac Kivu', x: 262, y: 545, cls: 'water'},
+    {t: T('RD Congo', 'DR Congo'), x: x0 + 95, y: (y0 + y1) / 2},
+    {t: T('Lac Kivu', 'Lake Kivu'), x: 262, y: 545, cls: 'water'},
     {t: 'Rwanda', x: x1 - 70, y: y0 + 40},
   ];
   svg.innerHTML = `
@@ -120,21 +122,21 @@
   pinsEl.insertAdjacentHTML('beforeend', `<g class="pin active" transform="translate(${dest[0]},${dest[1]})">${destPin(t0.title, stopDef && stopDef.label)}</g>`);
 
   /* ---------- fiche(s) ---------- */
-  $('#sTrips').innerHTML = trips.map(t => {
-    const longDate = NEXT.longDate(t);
-    const msg = o => `Bonjour ${SITE.brand}, je veux réserver ma place pour ${t.title} le ${longDate.toLowerCase()} (${t.price}), départ de ${o}.`;
+  $('#sTrips').innerHTML = trips.map(trip => {
+    const longDate = NEXT.longDate(trip);
+    const msg = o => t('sortie.msgBook', {brand: SITE.brand, t: trip.title, date: LANG === 'en' ? longDate : longDate.toLowerCase(), p: trip.price, o});
     return `<article class="trip">
       <figure class="trip-photo">
-        <img src="${t.photo}" srcset="${t.photo.replace('.jpg', '-sm.jpg')} 720w, ${t.photo} 1200w" sizes="(min-width: 900px) 480px, 92vw" alt="${esc(t.photoAlt || t.title)}" decoding="async">
-        <span class="trip-date"><b>${t.day.getDate()}</b><span>${esc(NEXT.monthShort(t))}</span></span>
+        <img src="${trip.photo}" srcset="${trip.photo.replace('.jpg', '-sm.jpg')} 720w, ${trip.photo} 1200w" sizes="(min-width: 900px) 480px, 92vw" alt="${esc(trip.photoAlt || trip.title)}" decoding="async">
+        <span class="trip-date"><b>${trip.day.getDate()}</b><span>${esc(NEXT.monthShort(trip))}</span></span>
       </figure>
       <div class="trip-body">
-        <h2 class="display trip-name">${esc(t.title)}</h2>
-        <p class="trip-when">${esc(longDate)} · Départ de ${t.origins.map(esc).join(' et ')}</p>
-        <p class="trip-text">${esc(t.text)}</p>
-        <div class="trip-price"><b class="display">${esc(t.price)}</b><span>${esc(t.priceNote)}</span></div>
-        <ul class="trip-inc">${t.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
-        <div class="trip-cta">${t.origins.map(o => `<a class="btn btn-sun" href="${wa(msg(o))}" target="_blank" rel="noopener">Réserver depuis ${esc(o)}</a>`).join('')}</div>
+        <h2 class="display trip-name">${esc(trip.title)}</h2>
+        <p class="trip-when">${esc(longDate)} · ${t('sortie.from', {o: trip.origins.map(esc).join(t('sortie.and'))})}</p>
+        <p class="trip-text">${esc(trip.text)}</p>
+        <div class="trip-price"><b class="display">${esc(trip.price)}</b><span>${esc(trip.priceNote)}</span></div>
+        <ul class="trip-inc">${trip.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+        <div class="trip-cta">${trip.origins.map(o => `<a class="btn btn-sun" href="${wa(msg(o))}" target="_blank" rel="noopener">${t('sortie.bookFrom', {o: esc(o)})}</a>`).join('')}</div>
       </div>
     </article>`;
   }).join('');

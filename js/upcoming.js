@@ -6,7 +6,7 @@
 (() => {
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const parseDay = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
-  const fmt = (d, o) => d.toLocaleDateString('fr-FR', o);
+  const fmt = (d, o) => d.toLocaleDateString(window.LOCALE || 'fr-FR', o);
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 
   window.NEXT = {
@@ -17,10 +17,10 @@
     shortDate: t => fmt(t.day, {day: 'numeric', month: 'short'}),                         // 29 nov.
     longDate: t => cap(fmt(t.day, {weekday: 'long', day: 'numeric', month: 'long'})),     // Dimanche 29 novembre
     monthShort: t => fmt(t.day, {month: 'short'}).replace('.', ''),                       // nov
-    countdown: t => {
-      const n = Math.round((t.day - today) / 864e5);
-      return n === 0 ? 'C’est aujourd’hui' : n === 1 ? 'C’est demain' : `Dans ${n} jours`;
+    countdown: trip => {
+      const n = Math.round((trip.day - today) / 864e5);
+      return n === 0 ? t('cd.today') : n === 1 ? t('cd.tomorrow') : t('cd.inDays', {n});
     },
-    page: 'prochaine-sortie.html',
+    page: window.I18N.withLang('prochaine-sortie.html'),
   };
 })();

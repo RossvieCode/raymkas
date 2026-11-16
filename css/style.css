@@ -312,7 +312,7 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .tt-cta:hover .tt-arrow{transform:translateX(4px)}
 
 /* ---------- bon à savoir ---------- */
-.know{position:relative;padding:4svh 0 10svh;background:var(--surface-2)}
+.know{position:relative;padding:8svh 0 10svh;background:var(--surface-2)}
 .faq{display:grid;gap:10px;margin-top:22px}
 .faq-item{border-radius:18px;background:var(--fill-faint);border:1px solid var(--fill-soft);transition:background-color .3s,border-color .3s}
 .faq-item[open]{background:var(--fill-soft);border-color:var(--line)}
@@ -334,10 +334,6 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .cta p{max-width:400px;margin:18px auto 0;font-size:15.5px;line-height:1.5;font-weight:500;font-stretch:112%;color:var(--fg-soft)}
 .cta .btn{margin-top:26px}
 .cta-mail{display:block;margin-top:22px;font-size:13px;font-weight:600;color:var(--fg-soft);letter-spacing:0;user-select:all;font-variant-numeric:tabular-nums}
-footer{background:var(--ink);border-top:1px solid var(--fill-soft);text-align:center;padding:52px 16px calc(env(safe-area-inset-bottom,0px) + 64px)}
-footer .logo{height:30px;font-size:13px}
-footer .caps{margin-top:16px;font-size:11px;color:var(--muted)}
-.foot-link{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;margin-top:4px;color:var(--white)!important;letter-spacing:.16em!important}
 
 @media (min-width:900px){
   :root{--stage-h:min(54vh,600px)}
@@ -396,4 +392,72 @@ footer .caps{margin-top:16px;font-size:11px;color:var(--muted)}
   .page-sortie .trip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
   .page-sortie .trip-photo{aspect-ratio:auto;min-height:100%}
   .page-sortie .trip-body{padding:34px}
+}
+
+/* =========================================================
+   Sélecteur de langue FR | EN
+   ========================================================= */
+.lang{display:inline-flex;align-items:center;padding:3px;border-radius:999px;border:1.5px solid var(--stroke-strong);
+  font:800 11px/1 var(--wide);font-stretch:125%;letter-spacing:.14em}
+.lang a{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:30px;padding:0 8px;border-radius:999px;
+  color:var(--fg-soft);transition:background-color .3s,color .3s}
+.lang a:hover{color:var(--white)}
+.lang a[aria-current]{background:var(--white);color:var(--ink)}
+.top-nav{align-items:center}
+/* téléphone : place pour le sélecteur (le hero a déjà « Voir les expériences ») */
+@media (max-width:599px){
+  .top-nav .tl-exp{display:none}
+  .top-nav .toplink[data-tiktok] span{display:none}
+  .top-nav .toplink[data-tiktok] .tt-logo{margin-right:0;font-size:19px}
+}
+.s-top-right{display:flex;align-items:center;gap:12px}
+@media (max-width:479px){.s-top .s-back{display:none}}
+
+/* =========================================================
+   Questions fréquentes
+   ========================================================= */
+.faq-wrap{display:grid;grid-template-areas:"title" "list" "more";gap:0}
+.faq-title{grid-area:title;font-size:clamp(44px,12vw,84px);line-height:.9;text-wrap:balance}
+.faq{grid-area:list}
+.faq-item summary{padding-left:18px}
+.faq-n{flex-shrink:0;width:30px;font-size:22px;line-height:1;color:var(--sun)}
+.faq-q{flex:1}
+.faq-item p{padding-left:66px}
+@media (max-width:479px){.faq-item p{padding-left:22px}}
+/* ouverture en douceur (navigateurs récents) */
+@supports (interpolate-size:allow-keywords){
+  .faq-item{interpolate-size:allow-keywords}
+  .faq-item::details-content{height:0;overflow:clip;transition:height .4s var(--ease),content-visibility .4s allow-discrete}
+  .faq-item[open]::details-content{height:auto}
+}
+.faq-more{grid-area:more;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px;margin-top:22px;
+  padding:20px 22px;border-radius:18px;border:1.5px dashed var(--stroke-strong)}
+.faq-more p{flex:1 1 220px;font-size:15px;line-height:1.5;font-weight:500;font-stretch:112%;color:var(--fg-soft)}
+.faq-more b{display:block;color:var(--white);font-weight:800;margin-bottom:2px}
+@media (min-width:900px){
+  .know .faq-wrap{max-width:1080px;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-areas:"title list" "more list";column-gap:56px;align-items:start}
+  .faq{margin-top:0}
+  .faq-more{margin-top:28px;flex-direction:column;align-items:flex-start}
+  .faq-more p{flex:none}
+}
+
+/* =========================================================
+   Pied de page
+   ========================================================= */
+.foot{background:var(--ink);border-top:1px solid var(--fill-soft);padding:44px 0 calc(env(safe-area-inset-bottom,0px) + 72px)}
+.foot-grid{display:grid;gap:26px}
+.foot-brand .logo{height:32px;font-size:14px}
+.foot-brand p{margin-top:14px;max-width:34ch;font-size:14px;line-height:1.5;font-weight:500;font-stretch:112%;color:var(--fg-soft)}
+.foot-nav{display:flex;flex-wrap:wrap;gap:4px 18px}
+.foot-nav a{display:inline-flex;align-items:center;min-height:44px;font-size:14.5px;font-weight:700;font-stretch:112%;color:var(--white);
+  border-bottom:1.5px solid transparent;transition:border-color .3s}
+.foot-nav a:hover{border-bottom-color:var(--sun)}
+.foot-link .tt-logo{margin-right:8px;font-size:15px}
+.lang-foot{justify-self:start}
+.foot-bottom{display:flex;justify-content:space-between;gap:12px;margin-top:30px;padding-top:18px;border-top:1px solid var(--fill-soft);
+  font:800 10.5px/1.4 var(--wide);font-stretch:125%;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-meta)}
+@media (min-width:900px){
+  .foot .wrap{max-width:1080px}
+  .foot-grid{grid-template-columns:1.2fr 1fr auto;align-items:start;gap:40px}
+  .foot-nav{flex-direction:column;gap:0}
 }

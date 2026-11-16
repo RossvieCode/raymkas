@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@112..125,400..800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/img/hero-lac-sm.jpg" media="(max-width: 899px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/hero-lac.jpg" media="(min-width: 900px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=14">
+<link rel="stylesheet" href="css/style.css?v=15">
 </head>
 <body>
 
@@ -25,8 +25,9 @@
   <div class="hero-top">
     <span class="logo" data-brand></span>
     <nav class="top-nav">
-      <a class="caps toplink" href="#journey">Expériences</a>
-      <a class="caps toplink" data-tiktok>TikTok</a>
+      <a class="caps toplink tl-exp" href="#journey" data-i18n="nav.experiences">Expériences</a>
+      <a class="caps toplink" data-tiktok aria-label="TikTok">TikTok</a>
+      <div class="lang" data-lang-switch></div>
     </nav>
   </div>
   <div class="hero-content" id="heroContent">
@@ -37,8 +38,8 @@
     </h1>
     <p class="intro" id="heroIntro"></p>
     <div class="hero-actions">
-      <a class="btn btn-sun" id="heroNext" href="prochaine-sortie.html">Prochaine sortie</a>
-      <a class="btn btn-ghost" href="#journey">Voir les expériences</a>
+      <a class="btn btn-sun" id="heroNext" href="prochaine-sortie.html" data-i18n="hero.next">Prochaine sortie</a>
+      <a class="btn btn-ghost" href="#journey" data-i18n="hero.seeExp">Voir les expériences</a>
     </div>
     <div class="hero-foot">
       <div class="slide-bars" id="slideBars" aria-hidden="true"></div>
@@ -85,7 +86,7 @@
   <div class="stops">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2 class="display">Nos expériences</h2>
+        <h2 class="display" data-i18n="sec.experiences">Nos expériences</h2>
       </div>
       <div id="stops"></div>
     </div>
@@ -95,7 +96,7 @@
 <!-- ================= CRÉATEUR (confiance) ================= -->
 <section class="creator" id="creator">
   <div class="wrap">
-    <h2 class="caps reveal">Qui est derrière RAYMKAS</h2>
+    <h2 class="caps reveal" data-i18n="sec.creator">Qui est derrière RAYMKAS</h2>
     <div class="creator-card reveal">
       <img class="creator-bg" src="assets/img/raymond.jpg" srcset="assets/img/raymond-sm.jpg 687w, assets/img/raymond.jpg 1031w" sizes="(min-width: 900px) 780px, 100vw" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <blockquote class="display" id="creatorQuote"></blockquote>
@@ -108,9 +109,13 @@
 
 <!-- ================= QUESTIONS FRÉQUENTES ================= -->
 <section class="know" id="know">
-  <div class="wrap">
-    <h2 class="caps reveal">Questions fréquentes</h2>
+  <div class="wrap faq-wrap">
+    <h2 class="display faq-title reveal" data-i18n="sec.faq">Questions fréquentes</h2>
     <div class="faq" id="faqList"></div>
+    <div class="faq-more reveal">
+      <p><b data-i18n="faq.moreTitle">Une autre question ?</b> <span data-i18n="faq.moreText">Raymond te répond directement sur WhatsApp.</span></p>
+      <a class="btn btn-solid" id="faqAsk" data-i18n="faq.moreBtn">Poser ma question</a>
+    </div>
   </div>
 </section>
 
@@ -118,8 +123,8 @@
 <section class="cta" id="cta">
   <div class="wrap reveal">
     <a class="cta-next" id="ctaNext" href="prochaine-sortie.html" hidden></a>
-    <h2 class="display">On part quand&nbsp;?</h2>
-    <p>Choisis ta formule : on te répond sur WhatsApp avec le programme, le prix et les dates.</p>
+    <h2 class="display" data-i18n="cta.title">On part quand&nbsp;?</h2>
+    <p data-i18n="cta.text">Choisis ta formule : on te répond sur WhatsApp avec le programme, le prix et les dates.</p>
     <div class="choices" id="ctaChoices"></div>
     <span class="cta-mail" id="ctaMail"></span>
   </div>
@@ -127,18 +132,30 @@
 </main>
 
 <!-- bouton WhatsApp flottant : visible après le hero, masqué quand la section finale est à l'écran -->
-<a class="float-cta" id="floatCta" data-whatsapp>Réserver sur WhatsApp</a>
+<a class="float-cta" id="floatCta" data-whatsapp data-i18n="book.whatsapp">Réserver sur WhatsApp</a>
 
-<footer>
-  <span class="logo" data-brand></span>
-  <div class="caps">Goma . Bukavu</div>
-  <a class="caps foot-link" data-tiktok></a>
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="logo" data-brand></span>
+      <p data-i18n="foot.tag">Des sorties au départ de Goma et Bukavu : transport, guide et photographe compris.</p>
+    </div>
+    <nav class="foot-nav">
+      <a href="#journey" data-i18n="nav.experiences">Expériences</a>
+      <a href="prochaine-sortie.html" data-i18n="hero.next">Prochaine sortie</a>
+      <a data-whatsapp>WhatsApp</a>
+      <a class="foot-link" data-tiktok></a>
+    </nav>
+    <div class="lang lang-foot" data-lang-switch></div>
+  </div>
+  <div class="wrap foot-bottom"><span>© 2026 RAYMKAS</span><span>Goma . Bukavu</span></div>
 </footer>
 
-<script src="js/content.js?v=14"></script>
-<script src="js/upcoming.js?v=14"></script>
-<script src="js/map-data.js?v=14"></script>
-<script src="js/map-draw.js?v=14"></script>
-<script src="js/main.js?v=14"></script>
+<script src="js/i18n.js?v=15"></script>
+<script src="js/content.js?v=15"></script>
+<script src="js/upcoming.js?v=15"></script>
+<script src="js/map-data.js?v=15"></script>
+<script src="js/map-draw.js?v=15"></script>
+<script src="js/main.js?v=15"></script>
 </body>
 </html>

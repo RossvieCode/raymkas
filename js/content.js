@@ -1,12 +1,14 @@
 /* =====================================================================
    CONTENU : tout ce que le visiteur lit se modifie ici.
+   Chaque texte est écrit deux fois : T('français', 'English').
    Les photos sont dans assets/img/.
    ===================================================================== */
 
 window.SITE = {
   brand: 'RAYMKAS',
-  heroLead: 'De Goma & Bukavu, cap sur',
-  intro: 'On s’occupe du transport, du guide et des photos. Toi, tu profites. Plus de 500 voyageurs sont déjà partis avec nous depuis avril.',
+  heroLead: T('De Goma & Bukavu, cap sur', 'From Goma & Bukavu, off to'),
+  intro: T('On s’occupe du transport, du guide et des photos. Toi, tu profites. Plus de 500 voyageurs sont déjà partis avec nous depuis avril.',
+           'We handle the transport, the guide and the photos. You just enjoy. Over 500 travellers have already come along with us since April.'),
   /* Photos de fond du hero (diaporama). srcWide/posWide : variante pour écrans larges (≥ 900 px). */
   heroSlides: [
     {src: 'assets/img/hero-lac.jpg', pos: '52% center'},        // lac Kivu : l'île vue d'en haut
@@ -29,12 +31,14 @@ window.UPCOMING = [
     key: 'nyungwe',               // même clé que l'expérience (carte + lien dans sa fiche)
     title: 'Nyungwe',
     date: '2026-11-29',
-    price: '55 $',
-    priceNote: 'tout compris',
+    price: T('55 $', '$55'),
+    priceNote: T('tout compris', 'all inclusive'),
     photo: 'assets/img/nyungwe-1.jpg',
-    photoAlt: 'Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe',
-    text: 'Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
-    includes: ['Transport depuis Goma ou Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
+    photoAlt: T('Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe', 'A traveller on the suspended walkway above Nyungwe forest'),
+    text: T('Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
+            'A walkway suspended above the trees, a zipline and a waterfall, deep in one of Africa’s oldest forests.'),
+    includes: T(['Transport depuis Goma ou Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
+                ['Transport from Goma or Bukavu', 'Park fees: canopy walkway and zipline', 'A guide for the whole trip', 'A photographer for your memories']),
     origins: ['Goma', 'Bukavu'],
   },
 ];
@@ -44,19 +48,20 @@ window.CREATOR = {
   name: 'Raymond',
   handle: '@mugishokasongo',
   url: 'https://www.tiktok.com/@mugishokasongo',
-  quote: 'Découvre le Kivu que personne ne montre',
-  text: 'Derrière RAYMKAS, il y a Raymond. Sur TikTok, il partage les vues de rêve, les sorties et les lieux cachés de la région. Avec RAYMKAS, il t’emmène les vivre en vrai.',
+  quote: T('Découvre le Kivu que personne ne montre', 'Discover the Kivu nobody shows you'),
+  text: T('Derrière RAYMKAS, il y a Raymond. Sur TikTok, il partage les vues de rêve, les sorties et les lieux cachés de la région. Avec RAYMKAS, il t’emmène les vivre en vrai.',
+          'Behind RAYMKAS is Raymond. On TikTok, he shares dreamy views, outings and the region’s hidden spots. With RAYMKAS, he takes you to live them for real.'),
   stats: [
-    {n: 22.6, decimals: 1, suffix: ' K', label: 'abonnés'},
-    {n: 151.3, decimals: 1, suffix: ' K', label: 'j’aime'},
+    {n: 22.6, decimals: 1, suffix: ' K', label: T('abonnés', 'followers')},
+    {n: 151.3, decimals: 1, suffix: ' K', label: T('j’aime', 'likes')},
   ],
 };
 
 /* Chiffres clés */
 window.STATS = {
-  travelers: {n: 500, suffix: '+', label: 'voyageurs depuis avril'},
-  destinations: {label: 'expériences'},
-  origins: {label: 'villes de départ', names: ['Goma', 'Bukavu']},
+  travelers: {n: 500, suffix: '+', label: T('voyageurs depuis avril', 'travellers since April')},
+  destinations: {label: T('expériences', 'experiences')},
+  origins: {label: T('villes de départ', 'departure cities'), names: ['Goma', 'Bukavu']},
 };
 
 /* Points sur la carte (même projection que map-data.js) */
@@ -69,16 +74,16 @@ window.MAP_PTS = {
   akagera: [769.4, 429.7],
   kashusha: [163.0, 568.5],   // Sud-Kivu, au nord de Bukavu (env. 2,30° S, 28,84° E)
 };
-/* Villes de départ (RD Congo) : chaque expérience part de Goma ET de Bukavu ;
-   la carte trace les deux routes vers la destination active. */
+/* Villes de départ (RD Congo) : chaque expérience part de Goma ET de Bukavu,
+   sauf si elle a sa propre liste « origins » ; la carte trace les routes vers la destination active. */
 window.ORIGINS = [
   {key: 'goma', title: 'Goma', label: 'left'},
   {key: 'bukavu', title: 'Bukavu', label: 'below'},
 ];
 /* Noms discrets sur la carte */
 window.MAP_LABELS = [
-  {t: 'RD Congo', x: 150, y: 470},
-  {t: 'Lac Kivu', x: 262, y: 545, cls: 'water'},
+  {t: T('RD Congo', 'DR Congo'), x: 150, y: 470},
+  {t: T('Lac Kivu', 'Lake Kivu'), x: 262, y: 545, cls: 'water'},
   {t: 'Rwanda', x: 590, y: 600},
 ];
 
@@ -87,68 +92,73 @@ window.MAP_LABELS = [
    zoom  : niveau de zoom de la carte (1 = vue d'ensemble)            */
 window.STOPS = [
   {
-    key: 'bigogwe', num: '01', title: 'Bigogwe', meta: 'Collines . Vachers d’un jour',
+    key: 'bigogwe', num: '01', title: 'Bigogwe', meta: T('Collines . Vachers d’un jour', 'Hills . Herders for a day'),
     color: '#2f4a24', zoom: 2.3, label: 'right',
-    text: 'Enfile les bottes, le chapeau et la couverture traditionnelle, prends ton bâton de berger : à Bigogwe, tu passes la journée sur les collines verdoyantes, au milieu des vaches Inyambo aux immenses cornes.',
-    tags: ['Collines', 'Vaches Inyambo', 'Tenue de berger'],
+    text: T('Enfile les bottes, le chapeau et la couverture traditionnelle, prends ton bâton de berger : à Bigogwe, tu passes la journée sur les collines verdoyantes, au milieu des vaches Inyambo aux immenses cornes.',
+            'Pull on the boots, the hat and the traditional blanket, grab your herder’s stick: in Bigogwe you spend the day on the green hills, among Inyambo cows with their huge horns.'),
+    tags: T(['Collines', 'Vaches Inyambo', 'Tenue de berger'], ['Hills', 'Inyambo cows', 'Herder outfit']),
     photos: [
-      {src: 'assets/img/bigogwe-1.jpg', alt: 'Un voyageur en tenue de berger à côté d’une vache Inyambo aux longues cornes'},
-      {src: 'assets/img/bigogwe-chevre.jpg', alt: 'Une voyageuse en couverture à carreaux et chapeau, un chevreau dans les bras'},
-      {src: 'assets/img/bigogwe-groupe.jpg', alt: 'Le groupe en tenue de berger : chapeaux, couvertures à carreaux, bottes vertes et bâtons'},
-      {src: 'assets/img/bigogwe-2.jpg', alt: 'Groupe de voyageurs en couvertures à carreaux et chapeaux sur les collines'},
-      {src: 'assets/img/bigogwe-3.jpg', alt: 'Deux voyageuses en chapeau et bâton de berger sur la colline'},
-      {src: 'assets/img/bigogwe-4.jpg', alt: 'Voyageuses assises dans l’herbe, bottes vertes et bâtons de berger'},
-      {src: 'assets/img/bigogwe-photo.jpg', alt: 'Une voyageuse en chapeau prend son amie en photo sur la colline'},
+      {src: 'assets/img/bigogwe-1.jpg', alt: T('Un voyageur en tenue de berger à côté d’une vache Inyambo aux longues cornes', 'A traveller in herder clothes next to a long-horned Inyambo cow')},
+      {src: 'assets/img/bigogwe-chevre.jpg', alt: T('Une voyageuse en couverture à carreaux et chapeau, un chevreau dans les bras', 'A traveller in a checked blanket and hat, holding a young goat')},
+      {src: 'assets/img/bigogwe-groupe.jpg', alt: T('Le groupe en tenue de berger : chapeaux, couvertures à carreaux, bottes vertes et bâtons', 'The group in herder outfits: hats, checked blankets, green boots and sticks')},
+      {src: 'assets/img/bigogwe-2.jpg', alt: T('Groupe de voyageurs en couvertures à carreaux et chapeaux sur les collines', 'Travellers in checked blankets and hats on the hills')},
+      {src: 'assets/img/bigogwe-3.jpg', alt: T('Deux voyageuses en chapeau et bâton de berger sur la colline', 'Two travellers with hats and herder’s sticks on the hill')},
+      {src: 'assets/img/bigogwe-4.jpg', alt: T('Voyageuses assises dans l’herbe, bottes vertes et bâtons de berger', 'Travellers sitting in the grass with green boots and herder’s sticks')},
+      {src: 'assets/img/bigogwe-photo.jpg', alt: T('Une voyageuse en chapeau prend son amie en photo sur la colline', 'A traveller in a hat taking a photo of her friend on the hill')},
     ],
   },
   {
-    key: 'kibuye', num: '02', title: 'Kibuye', meta: 'Lac Kivu . Château & bateau',
+    key: 'kibuye', num: '02', title: 'Kibuye', meta: T('Lac Kivu . Château & bateau', 'Lake Kivu . Castle & boat'),
     color: '#16394a', zoom: 2.1, label: 'right',
-    text: 'Monte le grand escalier au tapis rouge d’un château blanc perché sur la colline, puis embarque pour une balade en bateau entre les îles du lac Kivu. Arrêt photo au panneau Rwanda – Kongo et pause sur les rochers, au bord de l’eau.',
-    tags: ['Château', 'Bateau sur le lac', 'Îles'],
+    text: T('Monte le grand escalier au tapis rouge d’un château blanc perché sur la colline, puis embarque pour une balade en bateau entre les îles du lac Kivu. Arrêt photo au panneau Rwanda – Kongo et pause sur les rochers, au bord de l’eau.',
+            'Climb the red-carpet staircase of a white castle perched on the hill, then hop on a boat ride between the islands of Lake Kivu. Photo stop at the Rwanda – Kongo sign and a break on the rocks by the water.'),
+    tags: T(['Château', 'Bateau sur le lac', 'Îles'], ['Castle', 'Boat on the lake', 'Islands']),
     photos: [
-      {src: 'assets/img/kibuye-chateau.jpg', pos: '55% center', alt: 'Le château blanc et son escalier au tapis rouge, sur la colline de Kibuye'},
-      {src: 'assets/img/kibuye-vaches.jpg', pos: '48% center', alt: 'Des vaches qui se baignent dans le lac Kivu, devant le bateau des voyageurs'},
-      {src: 'assets/img/kibuye-bateau.jpg', alt: 'Trois voyageuses souriantes en gilet de sauvetage dans une pirogue orange'},
-      {src: 'assets/img/kibuye-groupe.jpg', alt: 'Le groupe au sommet, sur les rochers, avec le drapeau de la RD Congo'},
-      {src: 'assets/img/kibuye-3.jpg', alt: 'Une voyageuse les bras ouverts à l’avant du bateau'},
-      {src: 'assets/img/kibuye-4.jpg', alt: 'Une voyageuse devant le panneau Rwanda – Kongo'},
-      {src: 'assets/img/kibuye-6.jpg', alt: 'Trois voyageurs sur les rochers au bord du lac Kivu'},
+      {src: 'assets/img/kibuye-chateau.jpg', pos: '55% center', alt: T('Le château blanc et son escalier au tapis rouge, sur la colline de Kibuye', 'The white castle and its red-carpet staircase on the hill in Kibuye')},
+      {src: 'assets/img/kibuye-vaches.jpg', pos: '48% center', alt: T('Des vaches qui se baignent dans le lac Kivu, devant le bateau des voyageurs', 'Cows bathing in Lake Kivu in front of the travellers’ boat')},
+      {src: 'assets/img/kibuye-bateau.jpg', alt: T('Trois voyageuses souriantes en gilet de sauvetage dans une pirogue orange', 'Three smiling travellers in life jackets in an orange canoe')},
+      {src: 'assets/img/kibuye-groupe.jpg', alt: T('Le groupe au sommet, sur les rochers, avec le drapeau de la RD Congo', 'The group at the top, on the rocks, with the DR Congo flag')},
+      {src: 'assets/img/kibuye-3.jpg', alt: T('Une voyageuse les bras ouverts à l’avant du bateau', 'A traveller with open arms at the front of the boat')},
+      {src: 'assets/img/kibuye-4.jpg', alt: T('Une voyageuse devant le panneau Rwanda – Kongo', 'A traveller in front of the Rwanda – Kongo sign')},
+      {src: 'assets/img/kibuye-6.jpg', alt: T('Trois voyageurs sur les rochers au bord du lac Kivu', 'Three travellers on the rocks by Lake Kivu')},
     ],
   },
   {
-    key: 'kashusha', num: '03', title: 'Kashusha', meta: 'Sud-Kivu . Prairies',
+    key: 'kashusha', num: '03', title: 'Kashusha', meta: T('Sud-Kivu . Prairies', 'South Kivu . Meadows'),
     color: '#34461c', zoom: 2.4, label: 'left',
     origins: ['bukavu'],          // départ de Bukavu seulement (pas de frontière à passer)
-    text: 'À deux pas de Bukavu, sans passer la frontière : de grandes prairies vertes, les vaches qui paissent et les rangées d’eucalyptus. Une sortie nature au Sud-Kivu, pour respirer et faire de belles photos entre amis.',
-    tags: ['Prairies', 'Vaches', 'Sud-Kivu'],
+    text: T('À deux pas de Bukavu, sans passer la frontière : de grandes prairies vertes, les vaches qui paissent et les rangées d’eucalyptus. Une sortie nature au Sud-Kivu, pour respirer et faire de belles photos entre amis.',
+            'Just outside Bukavu, no border to cross: wide green meadows, grazing cows and rows of eucalyptus. A nature day out in South Kivu, to breathe and take great photos with friends.'),
+    tags: T(['Prairies', 'Vaches', 'Sud-Kivu'], ['Meadows', 'Cows', 'South Kivu']),
     photos: [
-      {src: 'assets/img/kashusha-1.jpg', alt: 'Quatre voyageurs posent dans la prairie de Kashusha, des vaches et des eucalyptus derrière eux'},
+      {src: 'assets/img/kashusha-1.jpg', alt: T('Quatre voyageurs posent dans la prairie de Kashusha, des vaches et des eucalyptus derrière eux', 'Four travellers posing in the Kashusha meadow, with cows and eucalyptus behind them')},
     ],
   },
   {
-    key: 'nyungwe', num: '04', title: 'Nyungwe', meta: 'Forêt tropicale . Canopée',
+    key: 'nyungwe', num: '04', title: 'Nyungwe', meta: T('Forêt tropicale . Canopée', 'Rainforest . Canopy'),
     color: '#123224', zoom: 2.1, label: 'right',
-    text: 'L’une des plus vieilles forêts d’Afrique. Tu marches sur une passerelle suspendue au-dessus des arbres, tu t’élances en tyrolienne, casque et harnais bien attachés, puis tu descends jusqu’à une cascade au cœur de la forêt.',
-    tags: ['Passerelle de la canopée', 'Tyrolienne jusqu’à 1 020 m', 'Cascade'],
+    text: T('L’une des plus vieilles forêts d’Afrique. Tu marches sur une passerelle suspendue au-dessus des arbres, tu t’élances en tyrolienne, casque et harnais bien attachés, puis tu descends jusqu’à une cascade au cœur de la forêt.',
+            'One of Africa’s oldest forests. You walk on a walkway suspended above the trees, fly down a zipline with your helmet and harness strapped on, then head down to a waterfall deep in the forest.'),
+    tags: T(['Passerelle de la canopée', 'Tyrolienne jusqu’à 1 020 m', 'Cascade'], ['Canopy walkway', 'Zipline up to 1,020 m', 'Waterfall']),
     photos: [
-      {src: 'assets/img/nyungwe-1.jpg', alt: 'Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe'},
-      {src: 'assets/img/nyungwe-passerelle.jpg', alt: 'Selfie du groupe sur la passerelle de la canopée'},
-      {src: 'assets/img/nyungwe-2.jpg', alt: 'Le groupe au pied d’une grande cascade dans la forêt'},
-      {src: 'assets/img/nyungwe-3.jpg', alt: 'Le groupe en casques et harnais au départ de la tyrolienne'},
-      {src: 'assets/img/nyungwe-4.jpg', alt: 'Deux voyageurs devant la cascade'},
+      {src: 'assets/img/nyungwe-1.jpg', alt: T('Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe', 'A traveller on the suspended walkway above Nyungwe forest')},
+      {src: 'assets/img/nyungwe-passerelle.jpg', alt: T('Selfie du groupe sur la passerelle de la canopée', 'Group selfie on the canopy walkway')},
+      {src: 'assets/img/nyungwe-2.jpg', alt: T('Le groupe au pied d’une grande cascade dans la forêt', 'The group at the foot of a tall waterfall in the forest')},
+      {src: 'assets/img/nyungwe-3.jpg', alt: T('Le groupe en casques et harnais au départ de la tyrolienne', 'The group in helmets and harnesses at the start of the zipline')},
+      {src: 'assets/img/nyungwe-4.jpg', alt: T('Deux voyageurs devant la cascade', 'Two travellers in front of the waterfall')},
     ],
   },
   {
-    key: 'akagera', num: '05', title: 'Akagera', meta: 'Savane . Safari',
+    key: 'akagera', num: '05', title: 'Akagera', meta: T('Savane . Safari', 'Savanna . Safari'),
     color: '#4a3f1e', zoom: 2.0, label: 'left',
-    text: 'Le parc des « Big Five ». Tu parcours la savane à la rencontre des girafes et des antilopes, tu pique-niques face au lac, et tu repars avec ta photo souvenir dans le cadre du parc.',
-    tags: ['Safari', 'Girafes', 'Pique-nique face au lac'],
+    text: T('Le parc des « Big Five ». Tu parcours la savane à la rencontre des girafes et des antilopes, tu pique-niques face au lac, et tu repars avec ta photo souvenir dans le cadre du parc.',
+            'The “Big Five” park. You cross the savanna to meet giraffes and antelopes, have a picnic facing the lake, and leave with your souvenir photo in the park’s frame.'),
+    tags: T(['Safari', 'Girafes', 'Pique-nique face au lac'], ['Safari', 'Giraffes', 'Lakeside picnic']),
     photos: [
-      {src: 'assets/img/akagera-girafes.jpg', alt: 'Un voyageur face à deux girafes dans la savane d’Akagera'},
-      {src: 'assets/img/akagera-2.jpg', alt: 'Trois girafes sous un acacia dans le parc de l’Akagera'},
-      {src: 'assets/img/akagera-3.jpg', alt: 'Deux antilopes cobes dans l’herbe verte de la savane'},
-      {src: 'assets/img/akagera-4.jpg', alt: 'Un voyageur dans le cadre photo du parc, face au lac'},
+      {src: 'assets/img/akagera-girafes.jpg', alt: T('Un voyageur face à deux girafes dans la savane d’Akagera', 'A traveller facing two giraffes in the Akagera savanna')},
+      {src: 'assets/img/akagera-2.jpg', alt: T('Trois girafes sous un acacia dans le parc de l’Akagera', 'Three giraffes under an acacia in Akagera park')},
+      {src: 'assets/img/akagera-3.jpg', alt: T('Deux antilopes cobes dans l’herbe verte de la savane', 'Two kob antelopes in the green savanna grass')},
+      {src: 'assets/img/akagera-4.jpg', alt: T('Un voyageur dans le cadre photo du parc, face au lac', 'A traveller in the park’s photo frame, facing the lake')},
     ],
   },
 ];
@@ -156,23 +166,26 @@ window.STOPS = [
 /* Deux façons de voyager */
 window.FORMULAS = [
   {
-    title: 'En groupe',
-    text: 'Rejoins la prochaine sortie avec d’autres voyageurs',
-    message: 'Bonjour RAYMKAS, je voudrais recevoir les dates des prochaines sorties en groupe.',
+    title: T('En groupe', 'As a group'),
+    text: T('Rejoins la prochaine sortie avec d’autres voyageurs', 'Join the next trip with other travellers'),
+    message: T('Bonjour RAYMKAS, je voudrais recevoir les dates des prochaines sorties en groupe.', 'Hello RAYMKAS, I’d like the dates of the next group trips.'),
   },
   {
-    title: 'En privé',
-    text: 'Tes dates, tes expériences, ta famille ou ton équipe',
-    message: 'Bonjour RAYMKAS, je voudrais organiser un voyage privé.',
+    title: T('En privé', 'Private'),
+    text: T('Tes dates, tes expériences, ta famille ou ton équipe', 'Your dates, your experiences, your family or your team'),
+    message: T('Bonjour RAYMKAS, je voudrais organiser un voyage privé.', 'Hello RAYMKAS, I’d like to organise a private trip.'),
   },
 ];
 
 /* Questions fréquentes (section avant « On part quand ? ») */
 window.FAQ = [
-  {q: 'Qu’est-ce qui est compris dans le prix ?',
-   a: 'Le transport depuis Goma ou Bukavu, un guide pendant toute la sortie et un photographe pour tes souvenirs.'},
-  {q: 'D’où part-on, et combien de temps dure une sortie ?',
-   a: 'Depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Selon l’expérience, la sortie dure une journée ou un week-end.'},
-  {q: 'Qu’est-ce que je dois prévoir ?',
-   a: 'Une pièce d’identité valide pour passer la frontière, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.'},
+  {q: T('Qu’est-ce qui est compris dans le prix ?', 'What’s included in the price?'),
+   a: T('Le transport depuis Goma ou Bukavu, un guide pendant toute la sortie et un photographe pour tes souvenirs.',
+        'Transport from Goma or Bukavu, a guide for the whole trip and a photographer for your memories.')},
+  {q: T('D’où part-on, et combien de temps dure une sortie ?', 'Where do we leave from, and how long is a trip?'),
+   a: T('Depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Selon l’expérience, la sortie dure une journée ou un week-end.',
+        'From Goma through the Rubavu border, or from Bukavu through the Rusizi border. Depending on the experience, a trip lasts a day or a weekend.')},
+  {q: T('Qu’est-ce que je dois prévoir ?', 'What should I bring?'),
+   a: T('Une pièce d’identité valide pour passer la frontière, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.',
+        'A valid ID to cross the border, good shoes and a jacket: it’s chilly in Bigogwe and Nyungwe.')},
 ];

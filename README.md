@@ -8,6 +8,9 @@ Réservation : WhatsApp +243 976 812 879 · TikTok [@mugishokasongo](https://www
 ## Modifier le contenu
 
 Tout le texte, les photos et le numéro WhatsApp sont dans `js/content.js`.
+Le site est en français et en anglais : chaque texte s’écrit `T('français', 'English')`.
+Les textes des boutons et titres sont dans `js/i18n.js` (dictionnaire `UI`).
+Lien direct vers la version anglaise : `?lang=en`.
 
 Après chaque modification d'un fichier CSS ou JS, augmente le numéro `?v=` dans `index.html`
 (ex. `?v=3` → `?v=4`) : sinon les téléphones peuvent garder l'ancienne version en mémoire.

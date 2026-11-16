@@ -17,17 +17,19 @@
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
   const pad = n => String(n).padStart(2, '0');
   const wa = msg => `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-  const DEFAULT_MSG = `Bonjour ${SITE.brand}, je voudrais réserver une sortie.`;
-  const fmt = (v, d) => v.toFixed(d).replace('.', ',');
+  const DEFAULT_MSG = t('msg.default', {brand: SITE.brand});
+  const fmt = (v, d) => (LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ','));
 
   /* ---------------- contenu statique ---------------- */
+  I18N.applyStatic('meta.title', 'meta.desc');
+  I18N.switchers();
   document.querySelectorAll('[data-brand]').forEach(el => el.textContent = SITE.brand);
   document.querySelectorAll('[data-whatsapp]').forEach(el => { el.href = wa(DEFAULT_MSG); el.target = '_blank'; el.rel = 'noopener'; });
   document.querySelectorAll('[data-tiktok]').forEach(el => { el.href = CREATOR.url; el.target = '_blank'; el.rel = 'noopener'; });
   // logo TikTok (note de musique, avec ses deux reflets cyan et rose)
   const TT_PATH = 'M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z';
   const ttLogo = (cls = 'tt-logo') => `<svg class="${cls}" viewBox="-1.5 -1.5 27 27" aria-hidden="true"><path d="${TT_PATH}" fill="#25f4ee" transform="translate(-.9 -.9)"/><path d="${TT_PATH}" fill="#fe2c55" transform="translate(.9 .9)"/><path d="${TT_PATH}" fill="currentColor"/></svg>`;
-  $('.foot-link').innerHTML = `${ttLogo()}<span>${esc(CREATOR.handle)} sur TikTok</span>`;
+  $('.foot-link').innerHTML = `${ttLogo()}<span>${t('foot.tiktok', {h: esc(CREATOR.handle)})}</span>`;
   $('.toplink[data-tiktok]').innerHTML = `${ttLogo()}<span>TikTok</span>`;
   $('#heroLead').textContent = SITE.heroLead;
   $('#heroSr').textContent = STOPS.map(s => s.title).join(', ');
@@ -100,20 +102,20 @@
   const nextTrip = NEXT && NEXT.trips[0];
   if (nextTrip) {
     // bouton du hero : « Prochaine sortie · 29 nov. »
-    $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;
+    $('#heroNext').textContent = t('hero.nextOn', {d: NEXT.shortDate(nextTrip)});
     // bouton flottant : même destination que le bouton jaune du hero
     const fc = $('#floatCta');
     fc.href = NEXT.page; fc.removeAttribute('target'); fc.removeAttribute('rel');
-    fc.textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;   // ex. Prochaine sortie · 29 nov.
+    fc.textContent = t('hero.nextOn', {d: NEXT.shortDate(nextTrip)});   // ex. Prochaine sortie · 29 nov.
     // rappel en bas de page, dans la section « On part quand ? »
     const ctaNext = $('#ctaNext');
     ctaNext.innerHTML = `<span class="cta-next-date"><b class="display">${nextTrip.day.getDate()}</b><span>${esc(NEXT.monthShort(nextTrip))}</span></span>
-      <span class="cta-next-txt"><small>Prochaine sortie</small><b>${esc(nextTrip.title)} · ${esc(nextTrip.price)} tout compris</b></span>
+      <span class="cta-next-txt"><small>${t('next.label')}</small><b>${esc(nextTrip.title)} · ${esc(nextTrip.price)} ${esc(nextTrip.priceNote)}</b></span>
       <svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
     ctaNext.hidden = false;
   } else {
     // aucune sortie annoncée : le bouton jaune du hero devient « Réserver sur WhatsApp »
-    const hn = $('#heroNext'); hn.href = wa(DEFAULT_MSG); hn.target = '_blank'; hn.rel = 'noopener'; hn.textContent = 'Réserver sur WhatsApp';
+    const hn = $('#heroNext'); hn.href = wa(DEFAULT_MSG); hn.target = '_blank'; hn.rel = 'noopener'; hn.textContent = t('book.whatsapp');
   }
 
   /* ---------------- chiffres ---------------- */
@@ -175,27 +177,27 @@
         <h3 class="display name">${esc(s.title)}</h3>
         <span class="caps meta">${esc(s.meta)}</span>
       </div>
-      <div class="strip" tabindex="0" aria-label="Photos de ${esc(s.title)}">
+      <div class="strip" tabindex="0" aria-label="${t('stop.photosOf', {x: esc(s.title)})}">
         ${s.photos.map((p, i) => `<figure class="shot"><img src="${p.src}" srcset="${p.src.replace('.jpg', '-sm.jpg')} 720w, ${p.src} 1200w" sizes="(min-width: 700px) 370px, 82vw"${p.pos ? ` style="object-position:${p.pos}"` : ''} alt="${esc(p.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
       </div>
       <div class="strip-bar">
         <span class="caps strip-count"><b>01</b> / ${pad(s.photos.length)}</span>
         <span class="strip-nav">
-          <button class="nav-btn" data-dir="-1" aria-label="Photo précédente"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 3L5 8l5 5"/></svg></button>
-          <button class="nav-btn" data-dir="1" aria-label="Photo suivante"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3l5 5-5 5"/></svg></button>
+          <button class="nav-btn" data-dir="-1" aria-label="${t('stop.prev')}"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 3L5 8l5 5"/></svg></button>
+          <button class="nav-btn" data-dir="1" aria-label="${t('stop.next')}"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3l5 5-5 5"/></svg></button>
         </span>
       </div>
       <p>${esc(s.text)}</p>
       <div class="tags">${s.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
       <div class="actions">
-        <a class="btn btn-solid" href="${wa(`Bonjour ${SITE.brand}, je suis intéressé(e) par l’expérience ${s.title}.`)}" target="_blank" rel="noopener">Réserver ${esc(s.title)}</a>
+        <a class="btn btn-solid" href="${wa(t('stop.msg', {brand: SITE.brand, x: s.title}))}" target="_blank" rel="noopener">${t('stop.book', {x: esc(s.title)})}</a>
       </div>
     </article>`).join('');
   // fiche de l'expérience qui a une sortie prévue : petit lien vers la page de la sortie
-  if (NEXT) NEXT.trips.forEach(t => {
-    const actions = document.querySelector(`.stop[data-key="${t.key}"] .actions`);
+  if (NEXT) NEXT.trips.forEach(trip => {
+    const actions = document.querySelector(`.stop[data-key="${trip.key}"] .actions`);
     if (!actions || actions.querySelector('.stop-next')) return;
-    actions.insertAdjacentHTML('beforeend', `<a class="stop-next" href="${NEXT.page}"><span class="ann-dot" aria-hidden="true"></span>Prochaine sortie le ${esc(NEXT.shortDate(t))} · ${esc(t.price)}</a>`);
+    actions.insertAdjacentHTML('beforeend', `<a class="stop-next" href="${NEXT.page}"><span class="ann-dot" aria-hidden="true"></span>${t('stop.nextOn', {d: esc(NEXT.shortDate(trip)), p: esc(trip.price)})}</a>`);
   });
   // une seule photo : pas de compteur ni de flèches
   document.querySelectorAll('.stop').forEach(st => { if (st.querySelectorAll('.shot').length < 2) st.querySelector('.strip-bar').hidden = true; });
@@ -259,7 +261,7 @@
   $('#creatorQuote').textContent = `« ${CREATOR.quote} »`;
   $('#creatorText').textContent = CREATOR.text;
   $('#creatorBtn').innerHTML = `<span class="tt-badge">${ttLogo()}</span>
-    <span class="tt-txt"><b>Suivre sur TikTok</b><small>${esc(CREATOR.handle)}</small></span>
+    <span class="tt-txt"><b>${t('tt.follow')}</b><small>${esc(CREATOR.handle)}</small></span>
     <svg class="tt-arrow" viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
   $('#creatorStats').innerHTML = CREATOR.stats.map(s => `
     <div class="cstat"><span class="display cstat-n" data-n="${s.n}" data-d="${s.decimals}" data-suffix="${esc(s.suffix)}">${fmt(s.n, s.decimals)}${esc(s.suffix)}</span>
@@ -267,10 +269,12 @@
 
   // questions fréquentes : <details> natif (clavier et lecteurs d'écran inclus), la 1re ouverte
   $('#faqList').innerHTML = FAQ.map((f, i) => `
-    <details class="faq-item reveal"${i === 0 ? ' open' : ''}>
-      <summary><span class="faq-q">${esc(f.q)}</span><span class="faq-ico" aria-hidden="true"></span></summary>
-      <p>${esc(f.a)}</p>
+    <details class="faq-item reveal" name="faq"${i === 0 ? ' open' : ''}>
+      <summary><span class="display faq-n" aria-hidden="true">${pad(i + 1)}</span><span class="faq-q">${esc(f.q)}</span><span class="faq-ico" aria-hidden="true"></span></summary>
+      <div class="faq-a"><p>${esc(f.a)}</p></div>
     </details>`).join('');
+  const ask = $('#faqAsk');
+  ask.href = wa(t('faq.moreMsg', {brand: SITE.brand})); ask.target = '_blank'; ask.rel = 'noopener';
   // données structurées FAQ (résultats Google)
   const ld = document.createElement('script');
   ld.type = 'application/ld+json';
@@ -363,7 +367,7 @@
   const stopEls = [...document.querySelectorAll('.stop')];
   const endEl = $('#creator');
   const hudNum = $('#hudNum'), hudName = $('#hudName');
-  const OVERVIEW_NAME = `${STATS.origins.names.join(' . ')} → ${STOPS.length} expériences`;
+  const OVERVIEW_NAME = t('hud.overview', {o: STATS.origins.names.join(' . '), n: STOPS.length});
   hudName.textContent = OVERVIEW_NAME;
 
   function pickState() {
@@ -399,7 +403,7 @@
     hudNum.textContent = overview ? (key === 'end' ? pad(STOPS.length) : '00') : active.num;
     hudName.classList.add('swap');
     setTimeout(() => {
-      hudName.textContent = active ? active.title :(key === 'end' ? 'Toutes nos expériences' : OVERVIEW_NAME);
+      hudName.textContent = active ? active.title :(key === 'end' ? t('hud.all') : OVERVIEW_NAME);
       hudName.classList.remove('swap');
     }, 200);
   }
@@ -453,11 +457,12 @@
   /* ---------------- typographie française : espaces insécables ---------------- */
   const fr = s => s.replace(/ ([:;?!»])/g, ' $1').replace(/« /g, '« ').replace(/(\d) (\d{3})\b/g, '$1 $2');
   const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  for (let n; (n = tw.nextNode());) {
+  if (LANG === 'fr') for (let n; (n = tw.nextNode());) {
     if (/^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName)) continue;
     const v = fr(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v;
   }
 
+  I18N.localizeLinks();   // liens internes : gardent la langue choisie
   addEventListener('resize', () => { resize(); dirty = true; lastY = -1; });
   resize(); applyCam(); requestAnimationFrame(frame);
 })();
