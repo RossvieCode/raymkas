@@ -167,7 +167,12 @@ window.FORMULAS = [
   },
 ];
 
-window.GOOD_TO_KNOW = [
-  {title: 'C’est compris', text: 'Le transport depuis Goma ou Bukavu, un guide pendant toute la sortie et un photographe pour tes souvenirs.'},
-  {title: 'Départs', text: 'Depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Selon l’expérience, la sortie dure une journée ou un week-end.'},
-  {title: 'À prévoir', text: 'Une pièce d’identité valide pour passer la frontière, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.'},];
+/* Questions fréquentes (section avant « On part quand ? ») */
+window.FAQ = [
+  {q: 'Qu’est-ce qui est compris dans le prix ?',
+   a: 'Le transport depuis Goma ou Bukavu, un guide pendant toute la sortie et un photographe pour tes souvenirs.'},
+  {q: 'D’où part-on, et combien de temps dure une sortie ?',
+   a: 'Depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Selon l’expérience, la sortie dure une journée ou un week-end.'},
+  {q: 'Qu’est-ce que je dois prévoir ?',
+   a: 'Une pièce d’identité valide pour passer la frontière, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.'},
+];

@@ -7,7 +7,7 @@
    Une seule boucle requestAnimationFrame pour la carte et la parallaxe.
    =================================================================== */
 (() => {
-  const {SITE, NEXT, STOPS, STATS, CREATOR, FORMULAS, GOOD_TO_KNOW, ORIGINS, MAP_LABELS, MAP_DATA: MAP} = window;
+  const {SITE, NEXT, STOPS, STATS, CREATOR, FORMULAS, FAQ, ORIGINS, MAP_LABELS, MAP_DATA: MAP} = window;
   const PTS = Object.assign({}, MAP.pts, window.MAP_PTS);
   // villes de départ d'une expérience (toutes par défaut, ou la liste « origins » de content.js)
   const originsOf = s => s.origins ? ORIGINS.filter(o => s.origins.includes(o.key)) : ORIGINS;
@@ -265,8 +265,18 @@
     <div class="cstat"><span class="display cstat-n" data-n="${s.n}" data-d="${s.decimals}" data-suffix="${esc(s.suffix)}">${fmt(s.n, s.decimals)}${esc(s.suffix)}</span>
     <span class="caps stat-l">${esc(s.label)}</span></div>`).join('');
 
-  $('#knowGrid').innerHTML = GOOD_TO_KNOW.map(k => `
-    <div class="card reveal"><h3>${esc(k.title)}</h3><p>${esc(k.text)}</p></div>`).join('');
+  // questions fréquentes : <details> natif (clavier et lecteurs d'écran inclus), la 1re ouverte
+  $('#faqList').innerHTML = FAQ.map((f, i) => `
+    <details class="faq-item reveal"${i === 0 ? ' open' : ''}>
+      <summary><span class="faq-q">${esc(f.q)}</span><span class="faq-ico" aria-hidden="true"></span></summary>
+      <p>${esc(f.a)}</p>
+    </details>`).join('');
+  // données structurées FAQ (résultats Google)
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({'@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: FAQ.map(f => ({'@type': 'Question', name: f.q, acceptedAnswer: {'@type': 'Answer', text: f.a}}))});
+  document.head.appendChild(ld);
 
   /* ---------------- carte ---------------- */
   const cam = $('#cam');

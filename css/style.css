@@ -313,10 +313,20 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 
 /* ---------- bon à savoir ---------- */
 .know{position:relative;padding:4svh 0 10svh;background:var(--surface-2)}
-.know-grid{display:grid;gap:12px;margin-top:22px}
-.card{padding:22px;border-radius:18px;background:var(--fill-faint);border:1px solid var(--fill-soft)}
-.card h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:28px;line-height:1}
-.card p{margin-top:10px;font-size:14.5px;line-height:1.5;font-weight:500;font-stretch:112%;color:var(--fg-soft)}
+.faq{display:grid;gap:10px;margin-top:22px}
+.faq-item{border-radius:18px;background:var(--fill-faint);border:1px solid var(--fill-soft);transition:background-color .3s,border-color .3s}
+.faq-item[open]{background:var(--fill-soft);border-color:var(--line)}
+.faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:16px 20px 16px 22px;
+  cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-q{font-size:16px;line-height:1.35;font-weight:700;font-stretch:112%}
+/* + qui devient − à l'ouverture */
+.faq-ico{position:relative;width:30px;height:30px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--stroke-strong);transition:background-color .3s,border-color .3s}
+.faq-ico::before,.faq-ico::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.8px;margin:-.9px 0 0 -5.5px;border-radius:1px;background:currentColor;transition:transform .35s var(--ease)}
+.faq-ico::after{transform:rotate(90deg)}
+.faq-item[open] .faq-ico{background:var(--sun);border-color:var(--sun);color:var(--ink)}
+.faq-item[open] .faq-ico::after{transform:rotate(0deg)}
+.faq-item p{padding:0 22px 20px;max-width:60ch;font-size:15px;line-height:1.55;font-weight:500;font-stretch:112%;color:var(--fg-soft)}
 
 /* ---------- cta + footer ---------- */
 .cta{position:relative;text-align:center;padding:9svh 0 14svh;background:linear-gradient(180deg,var(--surface-2) 0%,var(--ink) 100%)}
@@ -331,7 +341,6 @@ footer .caps{margin-top:16px;font-size:11px;color:var(--muted)}
 
 @media (min-width:900px){
   :root{--stage-h:min(54vh,600px)}
-  .know-grid{grid-template-columns:repeat(3,1fr)}
   .stops .wrap,.know .wrap,.stats .wrap,.creator .wrap{max-width:780px}
   .creator-card{padding:44px 40px 38px}
 }
