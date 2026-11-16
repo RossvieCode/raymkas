@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RAYMKAS Escapades</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Au départ de Goma et Bukavu : Bigogwe, Kibuye, Nyungwe et Akagera. Transport, guide et photographe compris.">
+<meta name="theme-color" content="#0b1416">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@112..125,400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-shade"></div>
+  <div class="hero-dim" id="heroDim"></div>
+  <div class="hero-top">
+    <span class="logo" data-brand></span>
+    <nav class="top-nav">
+      <a class="caps toplink" href="#journey">Expériences</a>
+      <a class="caps toplink" data-tiktok>TikTok</a>
+    </nav>
+  </div>
+  <div class="hero-content" id="heroContent">
+    <h1 class="hero-title">
+      <span class="caps lead" id="heroLead"></span>
+      <span class="display word" id="heroWord" aria-hidden="true"></span>
+      <span class="sr-only" id="heroSr"></span>
+    </h1>
+    <p class="intro" id="heroIntro"></p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" data-whatsapp>Réserver sur WhatsApp</a>
+      <a class="btn btn-ghost" href="#journey">Voir les expériences</a>
+    </div>
+    <div class="hero-foot">
+      <div class="slide-bars" id="slideBars" aria-hidden="true"></div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= RUBAN ================= -->
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+<!-- ================= STATS ================= -->
+<section class="stats" id="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat stat-big reveal">
+        <span class="display stat-n odo" id="odo" role="img"></span>
+        <span class="caps stat-l" id="statTravelersL"></span>
+      </div>
+      <div class="stat reveal">
+        <span class="display stat-n" id="statDestN"></span>
+        <span class="caps stat-l" id="statDestL"></span>
+        <ul class="ticker" id="destTicker"></ul>
+      </div>
+      <div class="stat reveal">
+        <span class="display stat-n" id="statOriginN"></span>
+        <span class="caps stat-l" id="statOriginL"></span>
+        <ul class="ticker" id="originTicker"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JOURNEY: carte + étapes ================= -->
+<section class="journey" id="journey">
+  <div class="stage" id="stage" aria-hidden="true">
+    <svg id="mapSvg"><g id="cam"></g></svg>
+    <div class="hud">
+      <span class="hud-count"><b id="hudNum">00</b> / <span id="hudTotal">04</span></span>
+      <span class="hud-name" id="hudName"></span>
+    </div>
+  </div>
+
+  <div class="stops">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 class="display">Nos expériences</h2>
+      </div>
+      <div id="stops"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CRÉATEUR (confiance) ================= -->
+<section class="creator" id="creator">
+  <div class="wrap">
+    <h2 class="caps reveal">Qui est derrière RAYMKAS</h2>
+    <div class="creator-card reveal">
+      <blockquote class="display" id="creatorQuote"></blockquote>
+      <p id="creatorText"></p>
+      <div class="creator-stats" id="creatorStats"></div>
+      <a class="btn btn-solid" data-tiktok id="creatorBtn"></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BON À SAVOIR ================= -->
+<section class="know" id="know">
+  <div class="wrap">
+    <h2 class="caps reveal">Bon à savoir</h2>
+    <div class="know-grid" id="knowGrid"></div>
+  </div>
+</section>
+
+<!-- ================= CTA : un seul choix, groupe ou privé ================= -->
+<section class="cta" id="cta">
+  <div class="wrap reveal">
+    <h2 class="display">On part quand&nbsp;?</h2>
+    <p>Choisis ta formule : on te répond sur WhatsApp avec le programme, le prix et les dates.</p>
+    <div class="choices" id="ctaChoices"></div>
+    <span class="cta-mail" id="ctaMail"></span>
+  </div>
+</section>
+</main>
+
+<!-- bouton WhatsApp flottant : visible après le hero, masqué quand la section finale est à l'écran -->
+<a class="float-cta" id="floatCta" data-whatsapp>Réserver sur WhatsApp</a>
+
+<footer>
+  <span class="logo" data-brand></span>
+  <div class="caps">Goma . Bukavu</div>
+  <a class="caps foot-link" data-tiktok></a>
+</footer>
+
+<script src="js/content.js"></script>
+<script src="js/map-data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
