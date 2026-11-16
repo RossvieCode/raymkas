@@ -9,6 +9,9 @@ Réservation : WhatsApp +243 976 812 879 · TikTok [@mugishokasongo](https://www
 
 Tout le texte, les photos et le numéro WhatsApp sont dans `js/content.js`.
 
+Après chaque modification d'un fichier CSS ou JS, augmente le numéro `?v=` dans `index.html`
+(ex. `?v=3` → `?v=4`) : sinon les téléphones peuvent garder l'ancienne version en mémoire.
+
 ## Structure
 
 - `index.html` : la page
