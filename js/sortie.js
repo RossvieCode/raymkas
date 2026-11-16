@@ -43,16 +43,20 @@
   $('#sBadgeMonth').textContent = NEXT.monthShort(t0);
   // compte à rebours simple jusqu'au jour de la sortie
   const cd = $('#sCountdown');
-  const unit = (n, l) => `<span class="cd-u"><b class="display">${String(n).padStart(2, '0')}</b><small>${l}</small></span>`;
+  cd.innerHTML = ['jours', 'h', 'min', 's'].map(l => `<span class="cd-u"><b class="display">00</b><small>${l}</small></span>`).join('');
+  const [cdD, cdH, cdM, cdS] = [...cd.querySelectorAll('b')], cdDLabel = cd.querySelector('small');
+  const two = n => String(n).padStart(2, '0');
+  let cdTimer = 0;
   function tick() {
     const ms = t0.day - Date.now();
-    if (ms <= 0) { cd.innerHTML = '<span class="cd-today">C’est aujourd’hui&nbsp;!</span>'; return; }
+    if (ms <= 0) { clearInterval(cdTimer); cd.innerHTML = '<span class="cd-today">C’est aujourd’hui&nbsp;!</span>'; return; }
     const d = Math.floor(ms / 864e5), hh = Math.floor(ms / 36e5) % 24, mm = Math.floor(ms / 6e4) % 60, ss = Math.floor(ms / 1e3) % 60;
-    cd.innerHTML = unit(d, d > 1 ? 'jours' : 'jour') + unit(hh, 'h') + unit(mm, 'min') + unit(ss, 's');
+    cdD.textContent = two(d); cdH.textContent = two(hh); cdM.textContent = two(mm); cdS.textContent = two(ss);
+    cdDLabel.textContent = d > 1 ? 'jours' : 'jour';
     cd.setAttribute('aria-label', `Départ dans ${d} jours et ${hh} heures`);
   }
   tick();
-  setInterval(tick, 1000);
+  cdTimer = setInterval(tick, 1000);
 
   /* ---------- carte : Goma et Bukavu vers la destination ---------- */
   const svg = $('#sMap');
@@ -63,10 +67,7 @@
   const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
   const x0 = Math.min(...xs) - 120, x1 = Math.max(...xs) + 150, y0 = Math.min(...ys) - 60, y1 = Math.max(...ys) + 60;
   svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
-  const curve = (a, b) => {
-    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1];
-    return `M${a}Q${mx - dy * 0.18},${my + dx * 0.18} ${b}`;
-  };
+  const {curve, originPin, destPin} = window.MAPDRAW;
   const labels = [
     {t: 'RD Congo', x: x0 + 95, y: (y0 + y1) / 2},
     {t: 'Lac Kivu', x: 262, y: 545, cls: 'water'},
@@ -93,7 +94,8 @@
   function drawRoute() {
     const r = mapWrap.getBoundingClientRect(), vh = innerHeight;
     // 0 quand le haut de la carte entre en bas de l'écran, 1 quand son bas atteint 75 % de l'écran
-    const prog = reduced ? 1 : Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh * 0.25)));
+    const atBottom = scrollY + vh >= document.documentElement.scrollHeight - 4;
+    const prog = reduced || atBottom ? 1 : Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh * 0.1)));
     if (Math.abs(prog - lastProg) < 0.002) return;
     lastProg = prog;
     legs.forEach(l => { l.p.style.strokeDashoffset = l.len * (1 - prog); });
@@ -111,16 +113,11 @@
 
   const pinsEl = svg.querySelector('#sPins');
   ORIG.forEach(o => {
-    const [x, y] = PTS[o.key], below = o.label === 'below', left = o.label === 'left';
-    const tx = below ? 0 : left ? -12 : 12, ty = below ? 22 : 4, anchor = below ? 'middle' : left ? 'end' : 'start';
-    pinsEl.insertAdjacentHTML('beforeend', `<g class="pin origin active" transform="translate(${x},${y})">
-      <g class="marker"><circle class="pulse" r="6"/><circle class="ring" r="6"/><circle class="dot" r="2.4"/></g>
-      <text x="${tx}" y="${ty}" text-anchor="${anchor}">${esc(o.title.toUpperCase())}</text></g>`);
+    const [x, y] = PTS[o.key];
+    pinsEl.insertAdjacentHTML('beforeend', `<g class="pin origin active" transform="translate(${x},${y})">${originPin(o.title, o.label)}</g>`);
   });
-  pinsEl.insertAdjacentHTML('beforeend', `<g class="pin active" transform="translate(${dest[0]},${dest[1]})">
-    <g class="marker"><path class="body" d="M0 0C-1.2-4.2-10-11.6-10-19.5a10 10 0 0 1 20 0C10-11.6 1.2-4.2 0 0z"/>
-    <circle class="hole" cx="0" cy="-19.5" r="3.6"/></g>
-    <text x="15" y="-15" text-anchor="start">${esc(t0.title.toUpperCase())}</text></g>`);
+  const stopDef = STOPS.find(st => st.key === t0.key);
+  pinsEl.insertAdjacentHTML('beforeend', `<g class="pin active" transform="translate(${dest[0]},${dest[1]})">${destPin(t0.title, stopDef && stopDef.label)}</g>`);
 
   /* ---------- fiche(s) ---------- */
   $('#sTrips').innerHTML = trips.map(t => {

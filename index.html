@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@112..125,400..800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/img/hero-lac-sm.jpg" media="(max-width: 899px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/hero-lac.jpg" media="(min-width: 900px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=12">
+<link rel="stylesheet" href="css/style.css?v=13">
 </head>
 <body>
 
@@ -21,7 +21,6 @@
 <header class="hero" id="hero">
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-shade"></div>
-  <a class="announce" id="announce" hidden></a>
   <div class="hero-dim" id="heroDim"></div>
   <div class="hero-top">
     <span class="logo" data-brand></span>
@@ -98,6 +97,7 @@
   <div class="wrap">
     <h2 class="caps reveal">Qui est derrière RAYMKAS</h2>
     <div class="creator-card reveal">
+      <img class="creator-bg" src="assets/img/raymond.jpg" srcset="assets/img/raymond-sm.jpg 687w, assets/img/raymond.jpg 1031w" sizes="(min-width: 900px) 780px, 100vw" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <blockquote class="display" id="creatorQuote"></blockquote>
       <p id="creatorText"></p>
       <div class="creator-stats" id="creatorStats"></div>
@@ -117,10 +117,10 @@
 <!-- ================= CTA : un seul choix, groupe ou privé ================= -->
 <section class="cta" id="cta">
   <div class="wrap reveal">
+    <a class="cta-next" id="ctaNext" href="prochaine-sortie.html" hidden></a>
     <h2 class="display">On part quand&nbsp;?</h2>
     <p>Choisis ta formule : on te répond sur WhatsApp avec le programme, le prix et les dates.</p>
     <div class="choices" id="ctaChoices"></div>
-    <a class="cta-next" id="ctaNext" href="prochaine-sortie.html" hidden></a>
     <span class="cta-mail" id="ctaMail"></span>
   </div>
 </section>
@@ -135,9 +135,10 @@
   <a class="caps foot-link" data-tiktok></a>
 </footer>
 
-<script src="js/content.js?v=12"></script>
-<script src="js/upcoming.js?v=12"></script>
-<script src="js/map-data.js?v=12"></script>
-<script src="js/main.js?v=12"></script>
+<script src="js/content.js?v=13"></script>
+<script src="js/upcoming.js?v=13"></script>
+<script src="js/map-data.js?v=13"></script>
+<script src="js/map-draw.js?v=13"></script>
+<script src="js/main.js?v=13"></script>
 </body>
 </html>

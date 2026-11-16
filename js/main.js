@@ -54,11 +54,13 @@
     heroBg.appendChild(img);
     return img;
   });
-  // 1re photo tout de suite (préchargée dans le <head>), les suivantes dès qu'elle est affichée
+  // 1re photo tout de suite (préchargée dans le <head>) ; ensuite on ne charge que la photo suivante,
+  // pendant que l'actuelle est affichée : économise les données mobiles
+  const want = img => { if (img && !img.getAttribute('src')) img.src = img.dataset.src; };
   slides[0].fetchPriority = 'high';
-  slides[0].src = slides[0].dataset.src;
-  const loadRest = () => slides.slice(1).forEach(img => { img.src = img.dataset.src; });
-  if (slides[0].complete) loadRest(); else { slides[0].addEventListener('load', loadRest, {once: true}); slides[0].addEventListener('error', loadRest, {once: true}); }
+  want(slides[0]);
+  const loadNext = () => want(slides[1]);
+  if (slides[0].complete) loadNext(); else { slides[0].addEventListener('load', loadNext, {once: true}); slides[0].addEventListener('error', loadNext, {once: true}); }
   const ready = img => img.isConnected && img.complete && img.naturalWidth > 0;
   bars.innerHTML = slides.map((_, i) => `<span class="bar${i === 0 ? ' on' : ''}"><i></i></span>`).join('');
   const barEls = [...bars.children];
@@ -75,6 +77,7 @@
     slides[slideIdx].classList.add('on');
     void barEls[slideIdx].offsetWidth;            // relance l'animation de la barre
     barEls[slideIdx].classList.add('on');
+    want(slides[(slideIdx + 1) % slides.length]);  // prépare la suivante
   }
   const heroVisible = () => !document.hidden && scrollY < innerHeight;   // pas d'animation hors écran
   if (!reduced && slides.length > 1) setInterval(() => { if (heroVisible()) nextSlide(); }, SLIDE_MS);
@@ -93,14 +96,9 @@
     setTimeout(() => { wordIdx = (wordIdx + 1) % words.length; wordEl.classList.remove('out'); showWord(words[wordIdx]); }, 380);
   }, 2600);
 
-  /* ---------------- prochaine sortie : bandeau discret en haut du hero ---------------- */
+  /* ---------------- prochaine sortie : bouton du hero, bouton flottant, rappel en bas ---------------- */
   const nextTrip = NEXT && NEXT.trips[0];
   if (nextTrip) {
-    const ann = $('#announce');
-    ann.href = NEXT.page;
-    ann.innerHTML = `<span class="ann-dot" aria-hidden="true"></span><span>Prochaine sortie : <b>${esc(nextTrip.title)}, ${esc(NEXT.shortDate(nextTrip))}</b></span><span class="ann-go">Voir</span>`;
-    ann.hidden = false;
-    $('#hero').classList.add('has-announce');
     // bouton du hero : « Prochaine sortie · 29 nov. »
     $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;
     // bouton flottant : même destination que le bouton jaune du hero
@@ -248,7 +246,15 @@
   const floatCta = $('#floatCta'), ctaSection = $('#cta');
   let ctaInView = false;
   new IntersectionObserver(([e]) => { ctaInView = e.isIntersecting; updateFloat(); }).observe(ctaSection);
-  function updateFloat() { floatCta.classList.toggle('show', scrollY > innerHeight * 0.8 && !ctaInView); }
+  let floatY = scrollY, readingDown = false, floatTimer = 0;
+  function updateFloat() {
+    const y = scrollY;
+    if (Math.abs(y - floatY) > 8) { readingDown = y > floatY; floatY = y; }
+    clearTimeout(floatTimer);
+    if (readingDown) floatTimer = setTimeout(() => { readingDown = false; updateFloat(); }, 1200);   // réapparaît à l'arrêt
+    const mobile = innerWidth < 900;
+    floatCta.classList.toggle('show', y > innerHeight * 0.8 && !ctaInView && !(mobile && readingDown));
+  }
 
   $('#creatorQuote').textContent = `« ${CREATOR.quote} »`;
   $('#creatorText').textContent = CREATOR.text;
@@ -273,11 +279,7 @@
     <g id="labels"></g><g id="pins"></g>`;
 
   // Un tracé par expérience : de la ville de départ vers la destination (courbe douce)
-  const curve = (a, b) => {
-    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1];
-    const bend = 0.18;
-    return `M${a}Q${mx - dy * bend},${my + dx * bend} ${b}`;
-  };
+  const {curve} = window.MAPDRAW;
   // Chaque expérience part de Goma ET de Bukavu : deux tracés par destination
   const legs = [];
   const routeBase = $('#routeBase'), route = $('#route');
@@ -303,17 +305,9 @@
   // Repères : expériences (épingle) + villes de départ (cercle qui pulse)
   const pinsEl = $('#pins'), pins = {};
   const addPin = (key, title, side, origin) => {
-    const [x, y] = PTS[key], right = side !== 'left', below = side === 'below';
+    const [x, y] = PTS[key];
     const g = document.createElementNS(NS, 'g'); g.setAttribute('class', origin ? 'pin origin' : 'pin');
-    // libellé : à droite, à gauche, ou sous le point (évite le bord de l'écran)
-    const tx = below ? 0 : right ? 12 : -12, ty = below ? 22 : 4, anchor = below ? 'middle' : right ? 'start' : 'end';
-    g.innerHTML = origin
-      ? `<g class="marker"><circle class="pulse" r="6"/><circle class="ring" r="6"/><circle class="dot" r="2.4"/></g>
-         <text x="${tx}" y="${ty}" text-anchor="${anchor}">${esc(title.toUpperCase())}</text>`
-      : `<g class="marker">
-          <path class="body" d="M0 0C-1.2-4.2-10-11.6-10-19.5a10 10 0 0 1 20 0C10-11.6 1.2-4.2 0 0z"/>
-          <circle class="hole" cx="0" cy="-19.5" r="3.6"/></g>
-         <text x="${right ? 15 : -15}" y="-15" text-anchor="${right ? 'start' : 'end'}">${esc(title.toUpperCase())}</text>`;
+    g.innerHTML = origin ? window.MAPDRAW.originPin(title, side) : window.MAPDRAW.destPin(title, side);
     pinsEl.appendChild(g);
     pins[key] = {g, x, y};
   };

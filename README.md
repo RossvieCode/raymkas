@@ -15,7 +15,7 @@ Après chaque modification d'un fichier CSS ou JS, augmente le numéro `?v=` dan
 ## Prochaines sorties
 
 Les sorties avec date et prix sont dans `window.UPCOMING` (`js/content.js`). Elles apparaissent sur la page
-`prochaine-sortie.html`, dans le bandeau en haut de la page d’accueil et dans la fiche de l’expérience.
+`prochaine-sortie.html`, dans le bouton jaune du hero, le bouton flottant, la section « On part quand ? » et dans la fiche de l’expérience.
 Une sortie disparaît toute seule le lendemain de sa date.
 
 ## Structure
@@ -26,6 +26,9 @@ Une sortie disparaît toute seule le lendemain de sa date.
 - `js/content.js` : les textes, les expériences, les photos
 - `js/main.js` : diaporama, carte animée, carrousels
 - `js/map-data.js` : le fond de carte
+- `js/map-draw.js` : tracés et repères de la carte (partagés par les deux pages)
+- `js/upcoming.js` : prochaines sorties (dates, compte à rebours)
+- `js/sortie.js` : page « Prochaine sortie »
 - `assets/img/` : les photos (`-sm` = version légère pour téléphone)
 
 Site statique, sans compilation : n'importe quel hébergement de fichiers (GitHub Pages, Netlify…) fonctionne.
