@@ -102,7 +102,11 @@
     ann.hidden = false;
     $('#hero').classList.add('has-announce');
     // bouton du hero : « Prochaine sortie · 29 nov. »
-    $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;   // ex. Prochaine sortie · 29 nov.
+    $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;
+    // bouton flottant : même destination que le bouton jaune du hero
+    const fc = $('#floatCta');
+    fc.href = NEXT.page; fc.removeAttribute('target'); fc.removeAttribute('rel');
+    fc.textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;   // ex. Prochaine sortie · 29 nov.
     // rappel en bas de page, dans la section « On part quand ? »
     const ctaNext = $('#ctaNext');
     ctaNext.innerHTML = `<span class="cta-next-date"><b class="display">${nextTrip.day.getDate()}</b><span>${esc(NEXT.monthShort(nextTrip))}</span></span>
@@ -195,6 +199,8 @@
     if (!actions || actions.querySelector('.stop-next')) return;
     actions.insertAdjacentHTML('beforeend', `<a class="stop-next" href="${NEXT.page}"><span class="ann-dot" aria-hidden="true"></span>Prochaine sortie le ${esc(NEXT.shortDate(t))} · ${esc(t.price)}</a>`);
   });
+  // une seule photo : pas de compteur ni de flèches
+  document.querySelectorAll('.stop').forEach(st => { if (st.querySelectorAll('.shot').length < 2) st.querySelector('.strip-bar').hidden = true; });
   document.querySelectorAll('.shot img').forEach(img => {
     img.addEventListener('error', () => { img.parentNode.classList.add('missing'); img.remove(); });
   });
