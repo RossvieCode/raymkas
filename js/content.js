@@ -6,7 +6,7 @@
 window.SITE = {
   brand: 'RAYMKAS',
   heroLead: 'De Goma & Bukavu, cap sur',
-  intro: 'On s’occupe du transport, du guide et des photos. Toi, tu profites. Plus de 500 voyageurs sont déjà partis avec nous depuis janvier.',
+  intro: 'On s’occupe du transport, du guide et des photos. Toi, tu profites. Plus de 500 voyageurs sont déjà partis avec nous depuis avril.',
   /* Photos de fond du hero (diaporama). srcWide/posWide : variante pour écrans larges (≥ 900 px). */
   heroSlides: [
     {src: 'assets/img/hero-lac.jpg', pos: '52% center'},        // lac Kivu : l'île vue d'en haut
@@ -54,7 +54,7 @@ window.CREATOR = {
 
 /* Chiffres clés */
 window.STATS = {
-  travelers: {n: 500, suffix: '+', label: 'voyageurs depuis janvier'},
+  travelers: {n: 500, suffix: '+', label: 'voyageurs depuis avril'},
   destinations: {label: 'expériences'},
   origins: {label: 'villes de départ', names: ['Goma', 'Bukavu']},
 };
@@ -67,6 +67,7 @@ window.MAP_PTS = {
   kibuye:  [328.8, 490.4],
   nyungwe: [285.0, 624.9],
   akagera: [769.4, 429.7],
+  kashusha: [163.0, 568.5],   // Sud-Kivu, au nord de Bukavu (env. 2,30° S, 28,84° E)
 };
 /* Villes de départ (RD Congo) : chaque expérience part de Goma ET de Bukavu ;
    la carte trace les deux routes vers la destination active. */
@@ -116,7 +117,17 @@ window.STOPS = [
     ],
   },
   {
-    key: 'nyungwe', num: '03', title: 'Nyungwe', meta: 'Forêt tropicale . Canopée',
+    key: 'kashusha', num: '03', title: 'Kashusha', meta: 'Sud-Kivu . Prairies',
+    color: '#34461c', zoom: 2.4, label: 'left',
+    origins: ['bukavu'],          // départ de Bukavu seulement (pas de frontière à passer)
+    text: 'À deux pas de Bukavu, sans passer la frontière : de grandes prairies vertes, les vaches qui paissent et les rangées d’eucalyptus. Une sortie nature au Sud-Kivu, pour respirer et faire de belles photos entre amis.',
+    tags: ['Prairies', 'Vaches', 'Sud-Kivu'],
+    photos: [
+      {src: 'assets/img/kashusha-1.jpg', alt: 'Quatre voyageurs posent dans la prairie de Kashusha, des vaches et des eucalyptus derrière eux'},
+    ],
+  },
+  {
+    key: 'nyungwe', num: '04', title: 'Nyungwe', meta: 'Forêt tropicale . Canopée',
     color: '#123224', zoom: 2.1, label: 'right',
     text: 'L’une des plus vieilles forêts d’Afrique. Tu marches sur une passerelle suspendue au-dessus des arbres, tu t’élances en tyrolienne, casque et harnais bien attachés, puis tu descends jusqu’à une cascade au cœur de la forêt.',
     tags: ['Passerelle de la canopée', 'Tyrolienne jusqu’à 1 020 m', 'Cascade'],
@@ -129,7 +140,7 @@ window.STOPS = [
     ],
   },
   {
-    key: 'akagera', num: '04', title: 'Akagera', meta: 'Savane . Safari',
+    key: 'akagera', num: '05', title: 'Akagera', meta: 'Savane . Safari',
     color: '#4a3f1e', zoom: 2.0, label: 'left',
     text: 'Le parc des « Big Five ». Tu parcours la savane à la rencontre des girafes et des antilopes, tu pique-niques face au lac, et tu repars avec ta photo souvenir dans le cadre du parc.',
     tags: ['Safari', 'Girafes', 'Pique-nique face au lac'],

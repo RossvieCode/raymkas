@@ -354,9 +354,19 @@ footer .caps{margin-top:16px;font-size:11px;color:var(--muted)}
 @media (min-width:600px){.s-top{padding-left:28px;padding-right:28px}}
 .s-head{padding-top:36px}
 .s-head h1{font-size:clamp(52px,15vw,120px);line-height:.88;margin-top:10px}
-.s-date{display:flex;flex-direction:column;gap:6px;margin-top:14px}
-.s-date-big{font-size:clamp(46px,13vw,96px);line-height:.9;color:var(--sun)}
-.s-date-sub{font:800 12px/1.3 var(--wide);font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-soft)}
+.s-title{display:flex;align-items:center;gap:16px;margin-top:10px}
+.s-title h1{margin-top:0}
+.s-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;
+  width:clamp(84px,22vw,118px);aspect-ratio:1;border-radius:22px;background:var(--white);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.s-badge b{font-size:clamp(44px,12vw,64px);line-height:.95;font-weight:400}
+.s-badge span{font:800 clamp(12px,3.2vw,15px)/1 var(--wide);font-stretch:125%;letter-spacing:.18em;text-transform:uppercase;margin-top:4px}
+/* compte à rebours */
+.s-countdown{display:flex;gap:8px;margin-top:20px}
+.cd-u{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:10px 6px 9px;border-radius:14px;
+  background:var(--fill-soft);border:1px solid var(--line)}
+.cd-u b{font-size:30px;line-height:1;font-weight:400;color:var(--sun);font-variant-numeric:tabular-nums}
+.cd-u small{margin-top:5px;font:800 10px/1 var(--wide);font-stretch:125%;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-soft)}
+.cd-today{font-family:var(--display);font-size:34px;color:var(--sun)}
 .s-map{position:relative;max-width:640px;margin:18px auto 0;padding:0 8px}
 /* « Réserve maintenant » : apparaît quand le tracé arrive à destination */
 .s-book{display:flex;width:fit-content;margin:4px auto 0;height:54px;padding:0 30px;white-space:nowrap;

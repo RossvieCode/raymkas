@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@112..125,400..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=10">
+<link rel="stylesheet" href="css/style.css?v=11">
 </head>
 <body class="page-sortie">
 
@@ -26,8 +26,11 @@
   <section class="s-head">
     <div class="wrap">
       <span class="caps trip-count" id="sCount"></span>
-      <h1 class="display">Prochaine sortie</h1>
-      <p class="s-date" id="sDate"><span class="display s-date-big" id="sDateBig"></span><span class="s-date-sub" id="sDateSub"></span></p>
+      <div class="s-title">
+        <h1 class="display">Prochaine sortie</h1>
+        <span class="s-badge" id="sBadge" aria-hidden="true"><b class="display" id="sBadgeDay"></b><span id="sBadgeMonth"></span></span>
+      </div>
+      <div class="s-countdown" id="sCountdown" role="timer" aria-live="off"></div>
     </div>
     <div class="s-map" id="sMapWrap">
       <svg id="sMap" role="img" aria-label="Trajet depuis Goma et Bukavu"></svg>
@@ -55,9 +58,9 @@
   <div class="caps">Goma . Bukavu</div>
 </footer>
 
-<script src="js/content.js?v=10"></script>
-<script src="js/upcoming.js?v=10"></script>
-<script src="js/map-data.js?v=10"></script>
-<script src="js/sortie.js?v=10"></script>
+<script src="js/content.js?v=11"></script>
+<script src="js/upcoming.js?v=11"></script>
+<script src="js/map-data.js?v=11"></script>
+<script src="js/sortie.js?v=11"></script>
 </body>
 </html>

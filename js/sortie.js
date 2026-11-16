@@ -37,16 +37,29 @@
     return;
   }
   document.title = `${t0.title}, ${NEXT.longDate(t0).toLowerCase()} · ${SITE.brand}`;
-  $('#sCount').textContent = NEXT.countdown(t0);
-  // la date en grand, en jaune, sous le titre
-  $('#sDateBig').textContent = t0.day.toLocaleDateString('fr-FR', {day: 'numeric', month: 'long'});
-  $('#sDateSub').textContent = `${t0.day.toLocaleDateString('fr-FR', {weekday: 'long'})} · ${t0.title} · ${t0.price}`;
-  $('#sMap').setAttribute('aria-label', `Trajet depuis ${ORIGINS.map(o => o.title).join(' et ')} jusqu’à ${t0.title}`);
+  // au-dessus du titre : jour, destination, prix ; à côté : la date « 29 NOV »
+  $('#sCount').textContent = `${t0.day.toLocaleDateString('fr-FR', {weekday: 'long'})} · ${t0.title} · ${t0.price}`;
+  $('#sBadgeDay').textContent = t0.day.getDate();
+  $('#sBadgeMonth').textContent = NEXT.monthShort(t0);
+  // compte à rebours simple jusqu'au jour de la sortie
+  const cd = $('#sCountdown');
+  const unit = (n, l) => `<span class="cd-u"><b class="display">${String(n).padStart(2, '0')}</b><small>${l}</small></span>`;
+  function tick() {
+    const ms = t0.day - Date.now();
+    if (ms <= 0) { cd.innerHTML = '<span class="cd-today">C’est aujourd’hui&nbsp;!</span>'; return; }
+    const d = Math.floor(ms / 864e5), hh = Math.floor(ms / 36e5) % 24, mm = Math.floor(ms / 6e4) % 60, ss = Math.floor(ms / 1e3) % 60;
+    cd.innerHTML = unit(d, d > 1 ? 'jours' : 'jour') + unit(hh, 'h') + unit(mm, 'min') + unit(ss, 's');
+    cd.setAttribute('aria-label', `Départ dans ${d} jours et ${hh} heures`);
+  }
+  tick();
+  setInterval(tick, 1000);
 
   /* ---------- carte : Goma et Bukavu vers la destination ---------- */
   const svg = $('#sMap');
   const dest = PTS[t0.key];
-  const pts = [dest, ...ORIGINS.map(o => PTS[o.key])];
+  const from = ORIGINS.filter(o => (t0.origins || []).some(n => n.toLowerCase() === o.key)), ORIG = from.length ? from : ORIGINS;
+  const pts = [dest, ...ORIG.map(o => PTS[o.key])];
+  $('#sMap').setAttribute('aria-label', `Trajet depuis ${ORIG.map(o => o.title).join(' et ')} jusqu’à ${t0.title}`);
   const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
   const x0 = Math.min(...xs) - 120, x1 = Math.max(...xs) + 150, y0 = Math.min(...ys) - 60, y1 = Math.max(...ys) + 60;
   svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
@@ -65,8 +78,8 @@
     <path class="m-lakes" d="${MAP.lakes}"/>
     <path class="m-border" d="${MAP.rwanda}"/>
     ${labels.map(l => `<text class="m-label${l.cls ? ' ' + l.cls : ''}" x="${l.x}" y="${l.y}" text-anchor="middle">${esc(l.t.toUpperCase())}</text>`).join('')}
-    ${ORIGINS.map(o => `<path class="m-route-base" stroke-width="1.4" d="${curve(PTS[o.key], dest)}"/>`).join('')}
-    <g class="m-route">${ORIGINS.map(o => `<path class="s-leg" stroke-width="3" d="${curve(PTS[o.key], dest)}"/>`).join('')}</g>
+    ${ORIG.map(o => `<path class="m-route-base" stroke-width="1.4" d="${curve(PTS[o.key], dest)}"/>`).join('')}
+    <g class="m-route">${ORIG.map(o => `<path class="s-leg" stroke-width="3" d="${curve(PTS[o.key], dest)}"/>`).join('')}</g>
     <g id="sPins"></g>`;
   // tracés qui avancent vers la destination au fil du défilement,
   // puis le bouton « Réserve maintenant » apparaît quand ils sont arrivés
@@ -97,7 +110,7 @@
   });
 
   const pinsEl = svg.querySelector('#sPins');
-  ORIGINS.forEach(o => {
+  ORIG.forEach(o => {
     const [x, y] = PTS[o.key], below = o.label === 'below', left = o.label === 'left';
     const tx = below ? 0 : left ? -12 : 12, ty = below ? 22 : 4, anchor = below ? 'middle' : left ? 'end' : 'start';
     pinsEl.insertAdjacentHTML('beforeend', `<g class="pin origin active" transform="translate(${x},${y})">

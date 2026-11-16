@@ -9,6 +9,8 @@
 (() => {
   const {SITE, NEXT, STOPS, STATS, CREATOR, FORMULAS, GOOD_TO_KNOW, ORIGINS, MAP_LABELS, MAP_DATA: MAP} = window;
   const PTS = Object.assign({}, MAP.pts, window.MAP_PTS);
+  // villes de départ d'une expérience (toutes par défaut, ou la liste « origins » de content.js)
+  const originsOf = s => s.origins ? ORIGINS.filter(o => s.origins.includes(o.key)) : ORIGINS;
   const $ = (s, el = document) => el.querySelector(s);
   const NS = 'http://www.w3.org/2000/svg';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -100,7 +102,7 @@
     ann.hidden = false;
     $('#hero').classList.add('has-announce');
     // bouton du hero : « Prochaine sortie · 29 nov. »
-    $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;
+    $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;   // ex. Prochaine sortie · 29 nov.
     // rappel en bas de page, dans la section « On part quand ? »
     const ctaNext = $('#ctaNext');
     ctaNext.innerHTML = `<span class="cta-next-date"><b class="display">${nextTrip.day.getDate()}</b><span>${esc(NEXT.monthShort(nextTrip))}</span></span>
@@ -108,8 +110,8 @@
       <svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
     ctaNext.hidden = false;
   } else {
-    // aucune sortie annoncée : le bouton du hero renvoie vers les expériences
-    const hn = $('#heroNext'); hn.href = '#journey'; hn.textContent = 'Voir les expériences';
+    // aucune sortie annoncée : le bouton jaune du hero devient « Réserver sur WhatsApp »
+    const hn = $('#heroNext'); hn.href = wa(DEFAULT_MSG); hn.target = '_blank'; hn.rel = 'noopener'; hn.textContent = 'Réserver sur WhatsApp';
   }
 
   /* ---------------- chiffres ---------------- */
@@ -273,7 +275,7 @@
   // Chaque expérience part de Goma ET de Bukavu : deux tracés par destination
   const legs = [];
   const routeBase = $('#routeBase'), route = $('#route');
-  STOPS.forEach((s, stopIdx) => ORIGINS.forEach(o => {
+  STOPS.forEach((s, stopIdx) => originsOf(s).forEach(o => {
     const d = curve(PTS[o.key], PTS[s.key]);
     const b = document.createElementNS(NS, 'path'); b.setAttribute('d', d); b.setAttribute('class', 'm-route-base');
     routeBase.appendChild(b);
@@ -317,7 +319,7 @@
   const CAMS = {all: {x: 470, y: 500, z: 1.0}};
   STOPS.forEach(s => {
     // cadre la destination et les deux villes de départ, centre légèrement tiré vers la destination
-    const pts = [PTS[s.key], ...ORIGINS.map(o => PTS[o.key])];
+    const pts = [PTS[s.key], ...originsOf(s).map(o => PTS[o.key])];
     const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
     const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
     const [dx, dy] = PTS[s.key];
@@ -380,7 +382,7 @@
     journey.classList.toggle('overview', overview);
     stopEls.forEach(el => el.classList.toggle('active', el.dataset.key === key));
     const active = STOPS[idx];
-    for (const k in pins) pins[k].g.classList.toggle('active', k === key || (!!active && ORIGINS.some(o => o.key === k)));
+    for (const k in pins) pins[k].g.classList.toggle('active', k === key || (!!active && originsOf(active).some(o => o.key === k)));
     const bgc = active ? active.color : SITE.overviewColor;
     document.documentElement.style.setProperty('--bg', bgc);
     barBg = bgc;
