@@ -99,6 +99,17 @@
     ann.innerHTML = `<span class="ann-dot" aria-hidden="true"></span><span>Prochaine sortie : <b>${esc(nextTrip.title)}, ${esc(NEXT.shortDate(nextTrip))}</b></span><span class="ann-go">Voir</span>`;
     ann.hidden = false;
     $('#hero').classList.add('has-announce');
+    // bouton du hero : « Prochaine sortie · 29 nov. »
+    $('#heroNext').textContent = `Prochaine sortie · ${NEXT.shortDate(nextTrip)}`;
+    // rappel en bas de page, dans la section « On part quand ? »
+    const ctaNext = $('#ctaNext');
+    ctaNext.innerHTML = `<span class="cta-next-date"><b class="display">${nextTrip.day.getDate()}</b><span>${esc(NEXT.monthShort(nextTrip))}</span></span>
+      <span class="cta-next-txt"><small>Prochaine sortie</small><b>${esc(nextTrip.title)} · ${esc(nextTrip.price)} tout compris</b></span>
+      <svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
+    ctaNext.hidden = false;
+  } else {
+    // aucune sortie annoncée : le bouton du hero renvoie vers les expériences
+    const hn = $('#heroNext'); hn.href = '#journey'; hn.textContent = 'Voir les expériences';
   }
 
   /* ---------------- chiffres ---------------- */

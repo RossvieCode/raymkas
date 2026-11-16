@@ -38,6 +38,10 @@
   }
   document.title = `${t0.title}, ${NEXT.longDate(t0).toLowerCase()} · ${SITE.brand}`;
   $('#sCount').textContent = NEXT.countdown(t0);
+  // la date en grand, en jaune, sous le titre
+  $('#sDateBig').textContent = t0.day.toLocaleDateString('fr-FR', {day: 'numeric', month: 'long'});
+  $('#sDateSub').textContent = `${t0.day.toLocaleDateString('fr-FR', {weekday: 'long'})} · ${t0.title} · ${t0.price}`;
+  $('#sMap').setAttribute('aria-label', `Trajet depuis ${ORIGINS.map(o => o.title).join(' et ')} jusqu’à ${t0.title}`);
 
   /* ---------- carte : Goma et Bukavu vers la destination ---------- */
   const svg = $('#sMap');
@@ -64,16 +68,34 @@
     ${ORIGINS.map(o => `<path class="m-route-base" stroke-width="1.4" d="${curve(PTS[o.key], dest)}"/>`).join('')}
     <g class="m-route">${ORIGINS.map(o => `<path class="s-leg" stroke-width="3" d="${curve(PTS[o.key], dest)}"/>`).join('')}</g>
     <g id="sPins"></g>`;
-  // tracés qui se dessinent à l'arrivée sur la page
-  svg.querySelectorAll('.s-leg').forEach((p, i) => {
+  // tracés qui avancent vers la destination au fil du défilement,
+  // puis le bouton « Réserve maintenant » apparaît quand ils sont arrivés
+  const legs = [...svg.querySelectorAll('.s-leg')].map(p => {
     const len = p.getTotalLength();
     p.style.strokeDasharray = `${len} ${len}`;
-    p.style.strokeDashoffset = reduced ? 0 : len;
-    if (!reduced) requestAnimationFrame(() => requestAnimationFrame(() => {
-      p.style.transition = `stroke-dashoffset 1.8s cubic-bezier(.65,0,.35,1) ${0.3 + i * 0.35}s`;
-      p.style.strokeDashoffset = 0;
-    }));
+    return {p, len};
   });
+  const mapWrap = $('#sMapWrap'), book = $('#sBook');
+  let lastProg = -1;
+  function drawRoute() {
+    const r = mapWrap.getBoundingClientRect(), vh = innerHeight;
+    // 0 quand le haut de la carte entre en bas de l'écran, 1 quand son bas atteint 75 % de l'écran
+    const prog = reduced ? 1 : Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh * 0.25)));
+    if (Math.abs(prog - lastProg) < 0.002) return;
+    lastProg = prog;
+    legs.forEach(l => { l.p.style.strokeDashoffset = l.len * (1 - prog); });
+    mapWrap.classList.toggle('arrived', prog >= 0.98);
+  }
+  let ticking = false;
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; drawRoute(); }); } };
+  addEventListener('scroll', onScroll, {passive: true});
+  addEventListener('resize', onScroll);
+  drawRoute();
+  book.addEventListener('click', e => {
+    e.preventDefault();
+    $('#sTrips').scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+  });
+
   const pinsEl = svg.querySelector('#sPins');
   ORIGINS.forEach(o => {
     const [x, y] = PTS[o.key], below = o.label === 'below', left = o.label === 'left';
