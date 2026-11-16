@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@112..125,400..800&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/img/hero-lac-sm.jpg" media="(max-width: 899px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/hero-lac.jpg" media="(min-width: 900px)" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=6">
+<link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
 
@@ -30,6 +30,7 @@
     </nav>
   </div>
   <div class="hero-content" id="heroContent">
+    <a class="next-chip" id="nextChip" href="#prochaine" hidden></a>
     <h1 class="hero-title">
       <span class="caps lead" id="heroLead"></span>
       <span class="display word" id="heroWord" aria-hidden="true"></span>
@@ -47,6 +48,14 @@
 </header>
 
 <main id="main">
+
+<!-- ================= PROCHAINE SORTIE ================= -->
+<section class="next" id="prochaine" hidden>
+  <div class="wrap">
+    <h2 class="display reveal">Prochaine sortie</h2>
+    <div id="nextList"></div>
+  </div>
+</section>
 
 
 <!-- ================= STATS ================= -->
@@ -132,8 +141,8 @@
   <a class="caps foot-link" data-tiktok></a>
 </footer>
 
-<script src="js/content.js?v=6"></script>
-<script src="js/map-data.js?v=6"></script>
-<script src="js/main.js?v=6"></script>
+<script src="js/content.js?v=7"></script>
+<script src="js/map-data.js?v=7"></script>
+<script src="js/main.js?v=7"></script>
 </body>
 </html>

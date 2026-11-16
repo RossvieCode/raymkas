@@ -11,13 +11,30 @@ window.SITE = {
   heroSlides: [
     {src: 'assets/img/hero-lac.jpg', pos: '52% center'},        // lac Kivu : l'île vue d'en haut
     {src: 'assets/img/hero-girafes.jpg', pos: 'center 45%'},   // Akagera : face aux girafes
-    {src: 'assets/img/hero-kibuye.jpg', pos: 'center 30%', srcWide: 'assets/img/hero-kibuye-wide.jpg', posWide: 'center 50%'},    // Kibuye : bras ouverts à l'avant du bateau, lac Kivu
+    {src: 'assets/img/hero-chateau.jpg', pos: '56% center'},      // Kibuye : le château et son escalier au tapis rouge
   ],
   whatsappNumber: '243976812879',              // numéro WhatsApp, chiffres seulement, avec l'indicatif
   whatsappDisplay: '+243 976 812 879',         // même numéro, tel qu'affiché sur la page
   email: '',                                   // À REMPLIR : vraie adresse (vide = ligne masquée)
   overviewColor: '#1d3a3a',                    // couleur de la page avant/après le parcours
 };
+
+/* Prochaines sorties (avec date et prix).
+   date : AAAA-MM-JJ. Une sortie disparaît toute seule le lendemain de sa date ;
+   s'il n'y en a plus, la section et le bouton du hero sont masqués.            */
+window.UPCOMING = [
+  {
+    title: 'Nyungwe',
+    date: '2026-11-29',
+    price: '55 $',
+    priceNote: 'tout compris',
+    photo: 'assets/img/nyungwe-1.jpg',
+    photoAlt: 'Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe',
+    text: 'Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
+    includes: ['Transport depuis Goma ou Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
+    origins: ['Goma', 'Bukavu'],
+  },
+];
 
 /* Créateur derrière RAYMKAS */
 window.CREATOR = {
