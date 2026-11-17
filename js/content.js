@@ -97,7 +97,6 @@ window.STOPS = [
   {
     key: 'tchibati', num: '01', title: 'Tchibati', meta: T('Kahuzi-Biega . Chutes', 'Kahuzi-Biega . Waterfalls'),
     color: '#1f3b26', zoom: 2.4, label: 'left',
-    origins: ['bukavu'],          // départ de Bukavu seulement
     text: T('Notre toute première sortie. Au pied du parc de Kahuzi-Biega, tu descends à travers la forêt jusqu’aux chutes de Tchibati, puis tu t’approches de l’eau qui tombe, dans les embruns, sur les rochers. Retour par les collines vertes, pour la photo de groupe.',
             'Our very first trip. At the edge of Kahuzi-Biega park, you walk down through the forest to the Tchibati falls, then get close to the falling water, in the spray, on the rocks. Back over the green hills for the group photo.'),
     tags: T(['Chutes', 'Forêt de Kahuzi-Biega', 'Notre première sortie'], ['Waterfalls', 'Kahuzi-Biega forest', 'Our first trip']),
@@ -111,10 +110,9 @@ window.STOPS = [
   {
     key: 'tchegera', num: '02', title: 'Tchegera', meta: T('Lac Kivu . Île', 'Lake Kivu . Island'),
     color: '#17404a', zoom: 2.6, label: 'left',
-    origins: ['goma'],            // départ de Goma seulement (l'île est à 15 min de bateau)
-    text: T('Une île au milieu du lac Kivu, à quelques minutes de bateau de Goma. Plage de sable noir volcanique, grands arbres au bord de l’eau, ponton de bois sur les rochers et troncs blanchis où l’on s’assoit les pieds dans le lac. Une journée pour décrocher, sans passer la frontière.',
-            'An island in the middle of Lake Kivu, a few minutes by boat from Goma. A black volcanic sand beach, tall trees by the water, a wooden footbridge over the rocks and bleached tree trunks to sit on with your feet in the lake. A day to switch off, with no border to cross.'),
-    tags: T(['Île', 'Bateau depuis Goma', 'Sable volcanique'], ['Island', 'Boat from Goma', 'Volcanic sand']),
+    text: T('Une île au milieu du lac Kivu, à quelques minutes de bateau de Goma. Plage de sable noir volcanique, grands arbres au bord de l’eau, ponton de bois sur les rochers et troncs blanchis où l’on s’assoit les pieds dans le lac. Une journée pour décrocher, au milieu du lac.',
+            'An island in the middle of Lake Kivu, a few minutes by boat from Goma. A black volcanic sand beach, tall trees by the water, a wooden footbridge over the rocks and bleached tree trunks to sit on with your feet in the lake. A day to switch off, in the middle of the lake.'),
+    tags: T(['Île', 'Traversée en bateau', 'Sable volcanique'], ['Island', 'Boat crossing', 'Volcanic sand']),
     photos: [
       {src: 'assets/img/tchegera-groupe.jpg', pos: 'center 70%', alt: T('Des voyageurs assis sur un grand tronc blanchi, les pieds dans le lac Kivu', 'Travellers sitting on a large bleached tree trunk, feet in Lake Kivu')},
       {src: 'assets/img/tchegera-ponton.jpg', alt: T('Un voyageur les bras ouverts sur le ponton de bois au-dessus des rochers', 'A traveller with open arms on the wooden footbridge above the rocks')},
@@ -125,9 +123,8 @@ window.STOPS = [
   {
     key: 'kashusha', num: '03', title: 'Kashusha', meta: T('Sud-Kivu . Jardin & prairies', 'South Kivu . Garden & meadows'),
     color: '#34461c', zoom: 2.4, label: 'right',
-    origins: ['bukavu'],          // départ de Bukavu seulement (pas de frontière à passer)
-    text: T('À deux pas de Bukavu, sans passer la frontière : un grand jardin fleuri avec ses bulles transparentes et ses tentes safari, puis les prairies vertes où paissent les vaches. Une sortie nature au Sud-Kivu, pour se poser, respirer et faire de belles photos entre amis.',
-            'Just outside Bukavu, no border to cross: a large flowered garden with transparent bubble domes and safari tents, then green meadows where cows graze. A nature day out in South Kivu, to relax, breathe and take great photos with friends.'),
+    text: T('Au Sud-Kivu, à deux pas de Bukavu : un grand jardin fleuri avec ses bulles transparentes et ses tentes safari, puis les prairies vertes où paissent les vaches. Une sortie nature pour se poser, respirer et faire de belles photos entre amis.',
+            'In South Kivu, just outside Bukavu: a large flowered garden with transparent bubble domes and safari tents, then green meadows where cows graze. A nature day out to relax, breathe and take great photos with friends.'),
     tags: T(['Bulles transparentes', 'Tentes safari', 'Prairies'], ['Bubble domes', 'Safari tents', 'Meadows']),
     photos: [
       {src: 'assets/img/kashusha-bulles.jpg', pos: '62% center', alt: T('Une bulle transparente sur la pelouse du jardin de Kashusha, sous un grand ciel', 'A transparent bubble dome on the lawn of the Kashusha garden, under a wide sky')},
@@ -220,9 +217,9 @@ window.FAQ = [
    a: T('Le transport depuis Goma ou Bukavu, un guide pendant toute la sortie et un photographe pour tes souvenirs.',
         'Transport from Goma or Bukavu, a guide for the whole trip and a photographer for your memories.')},
   {q: T('D’où part-on, et combien de temps dure une sortie ?', 'Where do we leave from, and how long is a trip?'),
-   a: T('Pour le Rwanda : depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Tchegera part de Goma, Kashusha et Tchibati de Bukavu, sans frontière à passer. Selon l’expérience, la sortie dure une journée ou un week-end.',
-        'For Rwanda: from Goma through the Rubavu border, or from Bukavu through the Rusizi border. Tchegera leaves from Goma, Kashusha and Tchibati from Bukavu, with no border to cross. Depending on the experience, a trip lasts a day or a weekend.')},
+   a: T('Toutes les sorties partent de Goma et de Bukavu. Pour le Rwanda, on passe la frontière à Rubavu depuis Goma, ou à Rusizi depuis Bukavu ; Tchibati, Tchegera et Kashusha sont en RD Congo. Selon l’expérience, la sortie dure une journée ou un week-end.',
+        'Every trip leaves from both Goma and Bukavu. For Rwanda, we cross the border at Rubavu from Goma, or at Rusizi from Bukavu; Tchibati, Tchegera and Kashusha are in DR Congo. Depending on the experience, a trip lasts a day or a weekend.')},
   {q: T('Qu’est-ce que je dois prévoir ?', 'What should I bring?'),
-   a: T('Une pièce d’identité valide pour passer la frontière, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.',
-        'A valid ID to cross the border, good shoes and a jacket: it’s chilly in Bigogwe and Nyungwe.')},
+   a: T('Une pièce d’identité valide pour les sorties au Rwanda, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.',
+        'A valid ID for trips to Rwanda, good shoes and a jacket: it’s chilly in Bigogwe and Nyungwe.')},
 ];
