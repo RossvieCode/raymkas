@@ -32,8 +32,8 @@ window.UPCOMING = [
     title: 'Nyungwe',
     date: '2026-11-29',
     price: T('55 $', '$55'),
-    priceNote: T('tout compris depuis Bukavu', 'all inclusive from Bukavu'),
-    priceFrom: 'Bukavu',          // le prix affiché vaut pour ce départ ; depuis les autres villes, le message WhatsApp demande le prix
+    priceNote: T('tout compris', 'all inclusive'),
+    // priceFrom: 'Bukavu',       // si le prix ne vaut que pour une ville : depuis les autres, le message WhatsApp demande le prix
     photo: 'assets/img/nyungwe-1.jpg',
     photoAlt: T('Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe', 'A traveller on the suspended walkway above Nyungwe forest'),
     text: T('Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
