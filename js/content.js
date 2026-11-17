@@ -32,14 +32,15 @@ window.UPCOMING = [
     title: 'Nyungwe',
     date: '2026-11-29',
     price: T('55 $', '$55'),
-    priceNote: T('tout compris', 'all inclusive'),
+    priceNote: T('tout compris depuis Bukavu', 'all inclusive from Bukavu'),
+    priceFrom: 'Bukavu',          // le prix affiché vaut pour ce départ ; depuis les autres villes, le message WhatsApp demande le prix
     photo: 'assets/img/nyungwe-1.jpg',
     photoAlt: T('Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe', 'A traveller on the suspended walkway above Nyungwe forest'),
     text: T('Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
             'A walkway suspended above the trees, a zipline and a waterfall, deep in one of Africa’s oldest forests.'),
-    includes: T(['Transport depuis Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
-                ['Transport from Bukavu', 'Park fees: canopy walkway and zipline', 'A guide for the whole trip', 'A photographer for your memories']),
-    origins: ['Bukavu'],          // ce prix (55 $) est au départ de Bukavu
+    includes: T(['Transport depuis Goma ou Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
+                ['Transport from Goma or Bukavu', 'Park fees: canopy walkway and zipline', 'A guide for the whole trip', 'A photographer for your memories']),
+    origins: ['Goma', 'Bukavu'],
   },
 ];
 

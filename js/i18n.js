@@ -73,6 +73,8 @@
     'sortie.msgNotify': ['Bonjour {brand}, je voudrais être prévenu(e) des prochaines sorties.', 'Hello {brand}, I’d like to be notified about the next trips.'],
     'sortie.msgBook': ['Bonjour {brand}, je veux réserver ma place pour {t} le {date} ({p}), départ de {o}.',
                        'Hello {brand}, I want to book my spot for {t} on {date} ({p}), leaving from {o}.'],
+    'sortie.msgBookAsk': ['Bonjour {brand}, je veux réserver ma place pour {t} le {date}, départ de {o}. Quel est le prix depuis {o} ?',
+                          'Hello {brand}, I want to book my spot for {t} on {date}, leaving from {o}. What is the price from {o}?'],
     'sortie.days': ['jours', 'days'],
     'sortie.day': ['jour', 'day'],
     'sortie.today': ['C’est aujourd’hui !', 'It’s today!'],
