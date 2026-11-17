@@ -19,7 +19,7 @@ window.SITE = {
   ],
   whatsappNumber: '243976812879',              // numéro WhatsApp, chiffres seulement, avec l'indicatif
   whatsappDisplay: '+243 976 812 879',         // même numéro, tel qu'affiché sur la page
-  email: '',                                   // À REMPLIR : vraie adresse (vide = ligne masquée)
+  email: 'mugishokasongo@icloud.com',          // adresse e-mail (vide = ligne masquée)
   overviewColor: '#1d3a3a',                    // couleur de la page avant/après le parcours
 };
 
@@ -37,20 +37,20 @@ window.UPCOMING = [
     photoAlt: T('Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe', 'A traveller on the suspended walkway above Nyungwe forest'),
     text: T('Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
             'A walkway suspended above the trees, a zipline and a waterfall, deep in one of Africa’s oldest forests.'),
-    includes: T(['Transport depuis Goma ou Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
-                ['Transport from Goma or Bukavu', 'Park fees: canopy walkway and zipline', 'A guide for the whole trip', 'A photographer for your memories']),
-    origins: ['Goma', 'Bukavu'],
+    includes: T(['Transport depuis Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],
+                ['Transport from Bukavu', 'Park fees: canopy walkway and zipline', 'A guide for the whole trip', 'A photographer for your memories']),
+    origins: ['Bukavu'],          // ce prix (55 $) est au départ de Bukavu
   },
 ];
 
 /* Créateur derrière RAYMKAS */
 window.CREATOR = {
-  name: 'Raymond',
+  name: 'Mugisho',
   handle: '@mugishokasongo',
   url: 'https://www.tiktok.com/@mugishokasongo',
   quote: T('Découvre le Kivu que personne ne montre', 'Discover the Kivu nobody shows you'),
-  text: T('Derrière RAYMKAS, il y a Raymond. Sur TikTok, il partage les vues de rêve, les sorties et les lieux cachés de la région. Avec RAYMKAS, il t’emmène les vivre en vrai.',
-          'Behind RAYMKAS is Raymond. On TikTok, he shares dreamy views, outings and the region’s hidden spots. With RAYMKAS, he takes you to live them for real.'),
+  text: T('Derrière RAYMKAS, il y a Mugisho. Sur TikTok, il partage les vues de rêve, les sorties et les lieux cachés de la région. Avec RAYMKAS, il t’emmène les vivre en vrai.',
+          'Behind RAYMKAS is Mugisho. On TikTok, he shares dreamy views, outings and the region’s hidden spots. With RAYMKAS, he takes you to live them for real.'),
   stats: [
     {n: 22.6, decimals: 1, suffix: ' K', label: T('abonnés', 'followers')},
     {n: 151.3, decimals: 1, suffix: ' K', label: T('j’aime', 'likes')},
@@ -73,6 +73,8 @@ window.MAP_PTS = {
   nyungwe: [285.0, 624.9],
   akagera: [769.4, 429.7],
   kashusha: [163.0, 568.5],   // Sud-Kivu, au nord de Bukavu (env. 2,30° S, 28,84° E)
+  tchegera: [247.0, 412.0],   // île du lac Kivu, au sud-ouest de Goma, à 15 min de bateau
+  tchibati: [140.0, 540.0],   // chutes de Tchibati, Kahuzi-Biega (env. 2,21° S, 28,77° E)
 };
 /* Villes de départ (RD Congo) : chaque expérience part de Goma ET de Bukavu,
    sauf si elle a sa propre liste « origins » ; la carte trace les routes vers la destination active. */
@@ -124,8 +126,22 @@ window.STOPS = [
     ],
   },
   {
-    key: 'kashusha', num: '03', title: 'Kashusha', meta: T('Sud-Kivu . Jardin & prairies', 'South Kivu . Garden & meadows'),
-    color: '#34461c', zoom: 2.4, label: 'left',
+    key: 'tchegera', num: '03', title: 'Tchegera', meta: T('Lac Kivu . Île', 'Lake Kivu . Island'),
+    color: '#17404a', zoom: 2.6, label: 'left',
+    origins: ['goma'],            // départ de Goma seulement (l'île est à 15 min de bateau)
+    text: T('Une île au milieu du lac Kivu, à quelques minutes de bateau de Goma. Plage de sable noir volcanique, grands arbres au bord de l’eau, ponton de bois sur les rochers et troncs blanchis où l’on s’assoit les pieds dans le lac. Une journée pour décrocher, sans passer la frontière.',
+            'An island in the middle of Lake Kivu, a few minutes by boat from Goma. A black volcanic sand beach, tall trees by the water, a wooden footbridge over the rocks and bleached tree trunks to sit on with your feet in the lake. A day to switch off, with no border to cross.'),
+    tags: T(['Île', 'Bateau depuis Goma', 'Sable volcanique'], ['Island', 'Boat from Goma', 'Volcanic sand']),
+    photos: [
+      {src: 'assets/img/tchegera-groupe.jpg', pos: 'center 70%', alt: T('Des voyageurs assis sur un grand tronc blanchi, les pieds dans le lac Kivu', 'Travellers sitting on a large bleached tree trunk, feet in Lake Kivu')},
+      {src: 'assets/img/tchegera-ponton.jpg', alt: T('Un voyageur les bras ouverts sur le ponton de bois au-dessus des rochers', 'A traveller with open arms on the wooden footbridge above the rocks')},
+      {src: 'assets/img/tchegera-rive.jpg', alt: T('La rive de sable noir, ses grands arbres, les kayaks et les bateaux au bord de l’eau', 'The black sand shore with tall trees, kayaks and boats by the water')},
+      {src: 'assets/img/tchegera-tente.jpg', alt: T('L’intérieur d’une grande tente safari, sa table en bois et une carte des volcans brodée', 'Inside a large safari tent, with a wooden table and an embroidered map of the volcanoes')},
+    ],
+  },
+  {
+    key: 'kashusha', num: '04', title: 'Kashusha', meta: T('Sud-Kivu . Jardin & prairies', 'South Kivu . Garden & meadows'),
+    color: '#34461c', zoom: 2.4, label: 'right',
     origins: ['bukavu'],          // départ de Bukavu seulement (pas de frontière à passer)
     text: T('À deux pas de Bukavu, sans passer la frontière : un grand jardin fleuri avec ses bulles transparentes et ses tentes safari, puis les prairies vertes où paissent les vaches. Une sortie nature au Sud-Kivu, pour se poser, respirer et faire de belles photos entre amis.',
             'Just outside Bukavu, no border to cross: a large flowered garden with transparent bubble domes and safari tents, then green meadows where cows graze. A nature day out in South Kivu, to relax, breathe and take great photos with friends.'),
@@ -141,7 +157,21 @@ window.STOPS = [
     ],
   },
   {
-    key: 'nyungwe', num: '04', title: 'Nyungwe', meta: T('Forêt tropicale . Canopée', 'Rainforest . Canopy'),
+    key: 'tchibati', num: '05', title: 'Tchibati', meta: T('Kahuzi-Biega . Chutes', 'Kahuzi-Biega . Waterfalls'),
+    color: '#1f3b26', zoom: 2.4, label: 'left',
+    origins: ['bukavu'],          // départ de Bukavu seulement
+    text: T('Notre toute première sortie. Au pied du parc de Kahuzi-Biega, tu descends à travers la forêt jusqu’aux chutes de Tchibati, puis tu t’approches de l’eau qui tombe, dans les embruns, sur les rochers. Retour par les collines vertes, pour la photo de groupe.',
+            'Our very first trip. At the edge of Kahuzi-Biega park, you walk down through the forest to the Tchibati falls, then get close to the falling water, in the spray, on the rocks. Back over the green hills for the group photo.'),
+    tags: T(['Chutes', 'Forêt de Kahuzi-Biega', 'Notre première sortie'], ['Waterfalls', 'Kahuzi-Biega forest', 'Our first trip']),
+    photos: [
+      {src: 'assets/img/tchibati-1.jpg', alt: T('Trois voyageurs devant les chutes de Tchibati, dans les embruns', 'Three travellers in front of the Tchibati falls, in the spray')},
+      {src: 'assets/img/tchibati-selfie.jpg', alt: T('Selfie du groupe dans la forêt, les chutes de Tchibati derrière', 'Group selfie in the forest, with the Tchibati falls behind')},
+      {src: 'assets/img/tchibati-2.jpg', alt: T('Des voyageuses qui dansent sur les rochers au pied de la cascade', 'Travellers dancing on the rocks at the foot of the waterfall')},
+      {src: 'assets/img/tchibati-groupe.jpg', alt: T('Le groupe assis dans l’herbe sur la colline, sous un grand ciel', 'The group sitting in the grass on the hill, under a wide sky')},
+    ],
+  },
+  {
+    key: 'nyungwe', num: '06', title: 'Nyungwe', meta: T('Forêt tropicale . Canopée', 'Rainforest . Canopy'),
     color: '#123224', zoom: 2.1, label: 'right',
     text: T('L’une des plus vieilles forêts d’Afrique. Tu marches sur une passerelle suspendue au-dessus des arbres, tu t’élances en tyrolienne, casque et harnais bien attachés, puis tu descends jusqu’à une cascade au cœur de la forêt.',
             'One of Africa’s oldest forests. You walk on a walkway suspended above the trees, fly down a zipline with your helmet and harness strapped on, then head down to a waterfall deep in the forest.'),
@@ -155,7 +185,7 @@ window.STOPS = [
     ],
   },
   {
-    key: 'akagera', num: '05', title: 'Akagera', meta: T('Savane . Safari', 'Savanna . Safari'),
+    key: 'akagera', num: '07', title: 'Akagera', meta: T('Savane . Safari', 'Savanna . Safari'),
     color: '#4a3f1e', zoom: 2.0, label: 'left',
     text: T('Le parc des « Big Five ». Tu parcours la savane à la rencontre des girafes et des antilopes, tu pique-niques face au lac, et tu repars avec ta photo souvenir dans le cadre du parc.',
             'The “Big Five” park. You cross the savanna to meet giraffes and antelopes, have a picnic facing the lake, and leave with your souvenir photo in the park’s frame.'),
@@ -189,8 +219,8 @@ window.FAQ = [
    a: T('Le transport depuis Goma ou Bukavu, un guide pendant toute la sortie et un photographe pour tes souvenirs.',
         'Transport from Goma or Bukavu, a guide for the whole trip and a photographer for your memories.')},
   {q: T('D’où part-on, et combien de temps dure une sortie ?', 'Where do we leave from, and how long is a trip?'),
-   a: T('Depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Selon l’expérience, la sortie dure une journée ou un week-end.',
-        'From Goma through the Rubavu border, or from Bukavu through the Rusizi border. Depending on the experience, a trip lasts a day or a weekend.')},
+   a: T('Pour le Rwanda : depuis Goma par la frontière de Rubavu, ou depuis Bukavu par la frontière de Rusizi. Tchegera part de Goma, Kashusha et Tchibati de Bukavu, sans frontière à passer. Selon l’expérience, la sortie dure une journée ou un week-end.',
+        'For Rwanda: from Goma through the Rubavu border, or from Bukavu through the Rusizi border. Tchegera leaves from Goma, Kashusha and Tchibati from Bukavu, with no border to cross. Depending on the experience, a trip lasts a day or a weekend.')},
   {q: T('Qu’est-ce que je dois prévoir ?', 'What should I bring?'),
    a: T('Une pièce d’identité valide pour passer la frontière, de bonnes chaussures et une veste : il fait frais à Bigogwe et à Nyungwe.',
         'A valid ID to cross the border, good shoes and a jacket: it’s chilly in Bigogwe and Nyungwe.')},

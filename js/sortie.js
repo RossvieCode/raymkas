@@ -71,9 +71,9 @@
   svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
   const {curve, originPin, destPin} = window.MAPDRAW;
   const labels = [
-    {t: T('RD Congo', 'DR Congo'), x: x0 + 95, y: (y0 + y1) / 2},
+    {t: T('RD Congo', 'DR Congo'), x: x0 + 95, y: y0 + 34},
     {t: T('Lac Kivu', 'Lake Kivu'), x: 262, y: 545, cls: 'water'},
-    {t: 'Rwanda', x: x1 - 70, y: y0 + 40},
+    {t: 'Rwanda', x: x1 - 70, y: y1 - 18},
   ];
   svg.innerHTML = `
     <path class="m-neigh" d="${MAP.neighbours}"/>

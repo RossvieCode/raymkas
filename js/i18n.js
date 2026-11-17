@@ -35,7 +35,7 @@
     'sec.creator': ['Qui est derrière RAYMKAS', 'Who’s behind RAYMKAS'],
     'sec.faq': ['Questions fréquentes', 'Frequently asked questions'],
     'faq.moreTitle': ['Une autre question ?', 'Another question?'],
-    'faq.moreText': ['Raymond te répond directement sur WhatsApp.', 'Raymond answers you directly on WhatsApp.'],
+    'faq.moreText': ['Mugisho te répond directement sur WhatsApp, ou par e-mail.', 'Mugisho answers you directly on WhatsApp, or by email.'],
     'faq.moreBtn': ['Poser ma question', 'Ask my question'],
     'faq.moreMsg': ['Bonjour {brand}, j’ai une question : ', 'Hello {brand}, I have a question: '],
     'cta.title': ['On part quand ?', 'When do we leave?'],

@@ -35,8 +35,15 @@
   $('#heroSr').textContent = STOPS.map(s => s.title).join(', ');
   $('#heroIntro').textContent = SITE.intro;
   // Coordonnées affichées en clair (à recopier ou à appeler si le lien ne s'ouvre pas)
-  const contact = [SITE.whatsappDisplay && `WhatsApp ${SITE.whatsappDisplay}`, SITE.email].filter(Boolean);
-  $('#ctaMail').textContent = contact.join(' · ');
+  const mailto = SITE.email && `mailto:${SITE.email}?subject=${encodeURIComponent(SITE.brand)}`;
+  const contact = [SITE.whatsappDisplay && esc(`WhatsApp ${SITE.whatsappDisplay}`), SITE.email && `<a href="${mailto}">${esc(SITE.email)}</a>`].filter(Boolean);
+  $('#ctaMail').innerHTML = contact.join(' · ');
+  // liens e-mail (pied de page, encadré de la FAQ) : le texte vide reçoit l'adresse
+  document.querySelectorAll('[data-email]').forEach(el => {
+    if (!SITE.email) return;
+    el.href = mailto; el.hidden = false;
+    if (!el.textContent.trim()) el.textContent = SITE.email;
+  });
   $('#hudTotal').textContent = pad(STOPS.length);
   document.documentElement.style.setProperty('--bg', SITE.overviewColor);
 
