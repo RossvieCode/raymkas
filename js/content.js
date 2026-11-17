@@ -124,15 +124,20 @@ window.STOPS = [
     ],
   },
   {
-    key: 'kashusha', num: '03', title: 'Kashusha', meta: T('Sud-Kivu . Prairies', 'South Kivu . Meadows'),
+    key: 'kashusha', num: '03', title: 'Kashusha', meta: T('Sud-Kivu . Jardin & prairies', 'South Kivu . Garden & meadows'),
     color: '#34461c', zoom: 2.4, label: 'left',
     origins: ['bukavu'],          // départ de Bukavu seulement (pas de frontière à passer)
-    text: T('À deux pas de Bukavu, sans passer la frontière : de grandes prairies vertes, les vaches qui paissent et les rangées d’eucalyptus. Une sortie nature au Sud-Kivu, pour respirer et faire de belles photos entre amis.',
-            'Just outside Bukavu, no border to cross: wide green meadows, grazing cows and rows of eucalyptus. A nature day out in South Kivu, to breathe and take great photos with friends.'),
-    tags: T(['Prairies', 'Vaches', 'Sud-Kivu'], ['Meadows', 'Cows', 'South Kivu']),
+    text: T('À deux pas de Bukavu, sans passer la frontière : un grand jardin fleuri avec ses bulles transparentes et ses tentes safari, puis les prairies vertes où paissent les vaches. Une sortie nature au Sud-Kivu, pour se poser, respirer et faire de belles photos entre amis.',
+            'Just outside Bukavu, no border to cross: a large flowered garden with transparent bubble domes and safari tents, then green meadows where cows graze. A nature day out in South Kivu, to relax, breathe and take great photos with friends.'),
+    tags: T(['Bulles transparentes', 'Tentes safari', 'Prairies'], ['Bubble domes', 'Safari tents', 'Meadows']),
     photos: [
+      {src: 'assets/img/kashusha-bulles.jpg', pos: '62% center', alt: T('Une bulle transparente sur la pelouse du jardin de Kashusha, sous un grand ciel', 'A transparent bubble dome on the lawn of the Kashusha garden, under a wide sky')},
+      {src: 'assets/img/kashusha-tente.jpg', pos: '52% center', alt: T('Une tente safari avec sa terrasse en bois, entourée de palmiers', 'A safari tent with its wooden deck, surrounded by palm trees')},
+      {src: 'assets/img/kashusha-2.jpg', pos: '40% center', alt: T('Le groupe autour d’une table, sous un parasol, dans le jardin fleuri', 'The group around a table under a parasol, in the flowered garden')},
+      {src: 'assets/img/kashusha-allee.jpg', pos: '60% center', alt: T('Une allée de dalles qui serpente dans la pelouse jusqu’aux bulles', 'A stepping-stone path winding across the lawn to the bubble domes')},
+      {src: 'assets/img/kashusha-jardin.jpg', pos: '50% center', alt: T('Le jardin en pente, ses fleurs rouges et les bulles au fond', 'The sloping garden with red flowers and the bubble domes behind')},
+      {src: 'assets/img/kashusha-tente-2.jpg', pos: '62% center', alt: T('Une tente safari au bout d’une allée bordée de haies et de fleurs', 'A safari tent at the end of a path lined with hedges and flowers')},
       {src: 'assets/img/kashusha-1.jpg', alt: T('Quatre voyageurs posent dans la prairie de Kashusha, des vaches et des eucalyptus derrière eux', 'Four travellers posing in the Kashusha meadow, with cows and eucalyptus behind them')},
-      {src: 'assets/img/kashusha-2.jpg', pos: '40% center', alt: T('Le groupe autour d’une table, sous un parasol, dans un jardin fleuri à Kashusha', 'The group around a table under a parasol, in a flowered garden in Kashusha')},
     ],
   },
   {
