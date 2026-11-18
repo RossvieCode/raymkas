@@ -129,7 +129,7 @@
       {brand: SITE.brand, t: trip.title, date: LANG === 'en' ? longDate : longDate.toLowerCase(), p: trip.price, o});
     return `<article class="trip">
       <figure class="trip-photo">
-        <img src="${trip.photo}" srcset="${trip.photo.replace('.jpg', '-sm.jpg')} 720w, ${trip.photo} 1200w" sizes="(min-width: 900px) 480px, 92vw" alt="${esc(trip.photoAlt || trip.title)}" decoding="async">
+        <img src="${trip.photo}" srcset="${srcsetOf(trip.photo)}" sizes="(min-width: 900px) 480px, 92vw" alt="${esc(trip.photoAlt || trip.title)}" decoding="async">
         <span class="trip-date"><b>${trip.day.getDate()}</b><span>${esc(NEXT.monthShort(trip))}</span></span>
       </figure>
       <div class="trip-body">

@@ -185,7 +185,7 @@
         <span class="caps meta">${esc(s.meta)}</span>
       </div>
       <div class="strip" tabindex="0" aria-label="${t('stop.photosOf', {x: esc(s.title)})}">
-        ${s.photos.map((p, i) => `<figure class="shot"><img src="${p.src}" srcset="${p.src.replace('.jpg', '-sm.jpg')} 720w, ${p.src} 1200w" sizes="(min-width: 700px) 370px, 82vw"${p.pos ? ` style="object-position:${p.pos}"` : ''} alt="${esc(p.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
+        ${s.photos.map((p, i) => `<figure class="shot"><img src="${p.src}" srcset="${srcsetOf(p.src)}" sizes="(min-width: 700px) 370px, 82vw"${p.pos ? ` style="object-position:${p.pos}"` : ''} alt="${esc(p.alt)}" loading="lazy" decoding="async"></figure>`).join('')}
       </div>
       <div class="strip-bar">
         <span class="caps strip-count"><b>01</b> / ${pad(s.photos.length)}</span>
@@ -344,21 +344,38 @@
     const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
     const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
     const [dx, dy] = PTS[s.key];
-    const z = Math.min(s.zoom, (MAP.W - 260) / (x1 - x0 + 180), (MAP.H - 240) / (y1 - y0 + 200));
-    CAMS[s.key] = {x: ((x0 + x1) + dx) / 3, y: ((y0 + y1) + dy) / 3 - 10, z};
+    CAMS[s.key] = {x: ((x0 + x1) + dx) / 3, y: ((y0 + y1) + dy) / 3 - 10, z: s.zoom, box: [x0, x1, y0, y1], zoom: s.zoom};
   });
+  // zone libre sous le compteur et le nom (HUD) : les repères ne passent jamais dessous
+  const HUD_H = 46, OFF_Y = 14;
   let vw = 0, vh = 0, base = 1;
   function resize() {
     vw = stage.clientWidth; vh = stage.clientHeight;
     svg.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
     base = Math.min(vw / (MAP.W - 260), (vh - 40) / (MAP.H - 240));
+    // zoom de chaque expérience : le plus fort possible tant que destination, villes de départ
+    // et leurs noms (taille fixe à l'écran) tiennent dans la zone visible
+    STOPS.forEach(st => {
+      const c = CAMS[st.key], [x0, x1, y0, y1] = c.box;
+      const halfW = vw / 2 - 16, top = vh / 2 + OFF_Y - HUD_H, bottom = vh / 2 - OFF_Y - 10;
+      // marges en pixels écran : noms (~110 px) à gauche/droite, épingle (~36 px) en haut, nom de ville (~26 px) en bas
+      const sc = Math.min(
+        (halfW - 110) / Math.max(c.x - x0, x1 - c.x, 1),
+        (top - 36) / Math.max(c.y - y0, 1),
+        (bottom - 26) / Math.max(y1 - c.y, 1));
+      c.z = Math.max(.6, Math.min(c.zoom, sc / base));
+    });
+    // vue d'ensemble : décale le centre pour que les noms tout à gauche (Tchibati) ne soient pas coupés
+    const allPts = Object.values(pins).map(p => [p.x, p.y]);
+    const minX = Math.min(...allPts.map(p => p[0]));
+    CAMS.all.x = Math.min(470, minX + (vw / 2 - 120) / base);
   }
   const cur = {x: CAMS.all.x, y: CAMS.all.y, lz: 0, prog: 0};
   let target = CAMS.all, targetProg = 0, stateKey = '';
 
   function applyCam() {
     const s = base * Math.exp(cur.lz);
-    cam.setAttribute('transform', `translate(${vw / 2} ${vh / 2 + 14}) scale(${s}) translate(${-cur.x} ${-cur.y})`);
+    cam.setAttribute('transform', `translate(${vw / 2} ${vh / 2 + OFF_Y}) scale(${s}) translate(${-cur.x} ${-cur.y})`);
     for (const k in pins) { const p = pins[k]; p.g.setAttribute('transform', `translate(${p.x} ${p.y}) scale(${1 / s})`); }
     labels.forEach(l => l.el.setAttribute('transform', `translate(${l.x} ${l.y}) scale(${1 / s})`));
     routeBase.style.strokeWidth = 1.4 / s; routeBase.style.strokeDasharray = `${1 / s} ${6 / s}`;
@@ -471,5 +488,5 @@
 
   I18N.localizeLinks();   // liens internes : gardent la langue choisie
   addEventListener('resize', () => { resize(); dirty = true; lastY = -1; });
-  resize(); applyCam(); requestAnimationFrame(frame);
+  resize(); cur.x = CAMS.all.x; applyCam(); requestAnimationFrame(frame);
 })();

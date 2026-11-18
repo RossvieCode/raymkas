@@ -205,7 +205,10 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .journey.overview .pin .body,.journey.overview .pin text{opacity:.95}
 @keyframes pulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
 
-.hud{position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));
+/* voile en haut de la carte : le compteur et le nom restent lisibles au-dessus des tracés */
+.stage::before{content:"";position:absolute;inset:0 0 auto;height:calc(env(safe-area-inset-top,0px) + 58px);z-index:1;
+  background:linear-gradient(180deg,var(--bg) 40%,transparent);transition:background-color .5s}
+.hud{z-index:2;position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));
   display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 .hud b{color:var(--white);font-weight:800}
 .hud-name{color:var(--white);transition:opacity .3s;text-align:right}
@@ -333,7 +336,7 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .cta h2{font-size:clamp(50px,15vw,88px)}
 .cta p{max-width:400px;margin:18px auto 0;font-size:15.5px;line-height:1.5;font-weight:500;font-stretch:112%;color:var(--fg-soft)}
 .cta .btn{margin-top:26px}
-.cta-mail{display:block;margin-top:22px;font-size:13px;font-weight:600;color:var(--fg-soft);letter-spacing:0;user-select:all;font-variant-numeric:tabular-nums}
+.cta-mail{display:block;margin-top:22px;font-size:13px;font-weight:600;color:var(--fg-soft);letter-spacing:0;font-variant-numeric:tabular-nums}
 
 @media (min-width:900px){
   :root{--stage-h:min(54vh,600px)}

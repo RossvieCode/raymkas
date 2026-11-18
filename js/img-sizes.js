@@ -1,0 +1,56 @@
+/* Généré automatiquement : largeur en px de la version -sm et de la version pleine de chaque photo.
+   Sert aux descripteurs « w » du srcset. À regénérer après l'ajout de photos
+   (sans entrée ici, la page garde 720w / 1200w par défaut). */
+window.IMG_W = {
+  'assets/img/akagera-2.jpg': [658, 1097],
+  'assets/img/akagera-3.jpg': [727, 1212],
+  'assets/img/akagera-4.jpg': [720, 1200],
+  'assets/img/akagera-girafes.jpg': [720, 960],
+  'assets/img/bigogwe-1.jpg': [640, 933],
+  'assets/img/bigogwe-2.jpg': [640, 933],
+  'assets/img/bigogwe-3.jpg': [640, 933],
+  'assets/img/bigogwe-4.jpg': [640, 933],
+  'assets/img/bigogwe-chevre.jpg': [640, 720],
+  'assets/img/bigogwe-groupe.jpg': [960, 1080],
+  'assets/img/bigogwe-photo.jpg': [640, 720],
+  'assets/img/hero-bateau.jpg': [1133, 1466],
+  'assets/img/hero-chateau.jpg': [1900, 2576],
+  'assets/img/hero-girafes.jpg': [960, 960],
+  'assets/img/hero-groupe.jpg': [1900, 2576],
+  'assets/img/hero-kibuye.jpg': [667, 854],
+  'assets/img/hero-kibuye-wide.jpg': [0, 1600],
+  'assets/img/hero-lac.jpg': [1900, 2576],
+  'assets/img/kashusha-1.jpg': [720, 1200],
+  'assets/img/kashusha-2.jpg': [720, 1080],
+  'assets/img/kashusha-allee.jpg': [720, 1080],
+  'assets/img/kashusha-bulles.jpg': [720, 1080],
+  'assets/img/kashusha-jardin.jpg': [720, 1080],
+  'assets/img/kashusha-tente.jpg': [720, 1280],
+  'assets/img/kashusha-tente-2.jpg': [720, 1280],
+  'assets/img/kibuye-3.jpg': [640, 854],
+  'assets/img/kibuye-4.jpg': [640, 720],
+  'assets/img/kibuye-6.jpg': [640, 854],
+  'assets/img/kibuye-bateau.jpg': [640, 1066],
+  'assets/img/kibuye-chateau.jpg': [960, 1600],
+  'assets/img/kibuye-groupe.jpg': [960, 1600],
+  'assets/img/kibuye-vaches.jpg': [960, 1600],
+  'assets/img/nyungwe-1.jpg': [720, 1050],
+  'assets/img/nyungwe-2.jpg': [720, 1050],
+  'assets/img/nyungwe-3.jpg': [720, 1050],
+  'assets/img/nyungwe-4.jpg': [720, 1050],
+  'assets/img/nyungwe-passerelle.jpg': [960, 1600],
+  'assets/img/raymond.jpg': [687, 1031],
+  'assets/img/tchegera-groupe.jpg': [540, 1050],
+  'assets/img/tchegera-ponton.jpg': [540, 1050],
+  'assets/img/tchegera-rive.jpg': [540, 1050],
+  'assets/img/tchegera-tente.jpg': [540, 1050],
+  'assets/img/tchibati-1.jpg': [540, 810],
+  'assets/img/tchibati-2.jpg': [540, 810],
+  'assets/img/tchibati-groupe.jpg': [720, 1080],
+  'assets/img/tchibati-selfie.jpg': [540, 810],
+};
+/* srcset d'une photo : version -sm et version pleine, avec leurs vraies largeurs */
+window.srcsetOf = src => {
+  const [sm, full] = window.IMG_W[src] || [720, 1200];
+  return `${src.replace('.jpg', '-sm.jpg')} ${sm}w, ${src} ${full}w`;
+};

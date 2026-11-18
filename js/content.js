@@ -74,7 +74,7 @@ window.MAP_PTS = {
   nyungwe: [285.0, 624.9],
   akagera: [769.4, 429.7],
   kashusha: [163.0, 568.5],   // Sud-Kivu, au nord de Bukavu (env. 2,30° S, 28,84° E)
-  tchegera: [247.0, 412.0],   // île du lac Kivu, au sud-ouest de Goma, à 15 min de bateau
+  tchegera: [238.0, 424.0],   // île du lac Kivu, au sud-ouest de Goma, à 15 min de bateau
   tchibati: [140.0, 540.0],   // chutes de Tchibati, Kahuzi-Biega (env. 2,21° S, 28,77° E)
 };
 /* Villes de départ (RD Congo) : chaque expérience part de Goma ET de Bukavu,
