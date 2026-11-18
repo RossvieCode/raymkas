@@ -30,7 +30,7 @@ window.UPCOMING = [
   {
     key: 'nyungwe',               // même clé que l'expérience (carte + lien dans sa fiche)
     title: 'Nyungwe',
-    date: '2026-11-29',
+    date: '2026-12-06',
     price: T('55 $', '$55'),
     priceNote: T('tout compris', 'all inclusive'),
     // priceFrom: 'Bukavu',       // si le prix ne vaut que pour une ville : depuis les autres, le message WhatsApp demande le prix
@@ -46,12 +46,12 @@ window.UPCOMING = [
 
 /* Créateur derrière RAYMKAS */
 window.CREATOR = {
-  name: 'Raymond',
+  name: 'Mugisho',
   handle: '@mugishokasongo',
   url: 'https://www.tiktok.com/@mugishokasongo',
   quote: T('Découvre le Kivu que personne ne montre', 'Discover the Kivu nobody shows you'),
-  text: T('Derrière RAYMKAS, il y a Raymond. Sur TikTok, il partage les vues de rêve, les sorties et les lieux cachés de la région. Avec RAYMKAS, il t’emmène les vivre en vrai.',
-          'Behind RAYMKAS is Raymond. On TikTok, he shares dreamy views, outings and the region’s hidden spots. With RAYMKAS, he takes you to live them for real.'),
+  text: T('Derrière RAYMKAS, il y a Mugisho. Sur TikTok, il partage les vues de rêve, les sorties et les lieux cachés de la région. Avec RAYMKAS, il t’emmène les vivre en vrai.',
+          'Behind RAYMKAS is Mugisho. On TikTok, he shares dreamy views, outings and the region’s hidden spots. With RAYMKAS, he takes you to live them for real.'),
   stats: [
     {n: 22.6, decimals: 1, suffix: ' K', label: T('abonnés', 'followers')},
     {n: 151.3, decimals: 1, suffix: ' K', label: T('j’aime', 'likes')},
