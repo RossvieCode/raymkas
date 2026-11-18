@@ -80,14 +80,14 @@ window.MAP_PTS = {
 /* Villes de départ (RD Congo) : chaque expérience part de Goma ET de Bukavu,
    sauf si elle a sa propre liste « origins » ; la carte trace les routes vers la destination active. */
 window.ORIGINS = [
-  {key: 'goma', title: 'Goma', label: 'left'},
+  {key: 'goma', title: 'Goma', label: 'right'},   // à droite : Tchegera est juste à gauche, dans le lac
   {key: 'bukavu', title: 'Bukavu', label: 'below'},
 ];
 /* Noms discrets sur la carte */
 window.MAP_LABELS = [
   {t: T('RD Congo', 'DR Congo'), x: 150, y: 470},
   {t: T('Lac Kivu', 'Lake Kivu'), x: 262, y: 545, cls: 'water'},
-  {t: 'Rwanda', x: 590, y: 600},
+  {t: 'Rwanda', x: 600, y: 545},   // entre Kibuye et Nyungwe, loin de leurs noms
 ];
 
 /* Une entrée par expérience.

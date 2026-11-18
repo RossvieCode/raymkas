@@ -14,7 +14,7 @@
       .map(t => ({...t, day: parseDay(t.date)}))
       .filter(t => t.day >= today)
       .sort((a, b) => a.day - b.day),
-    shortDate: t => fmt(t.day, {day: 'numeric', month: 'short'}),                         // 29 nov.
+    shortDate: t => fmt(t.day, {day: 'numeric', month: 'short'}).replace(/\s/g, ' '), // 6 déc. (insécable : jamais coupé)
     longDate: t => cap(fmt(t.day, {weekday: 'long', day: 'numeric', month: 'long'})),     // Dimanche 29 novembre
     monthShort: t => fmt(t.day, {month: 'short'}).replace('.', ''),                       // nov
     countdown: trip => {

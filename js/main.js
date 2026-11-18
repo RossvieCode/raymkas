@@ -157,7 +157,9 @@
   $('#originTicker').innerHTML = STATS.origins.names.map((n, i) => `<li class="${i === 0 ? 'on' : ''}">${esc(n)}</li>`).join('');
   function cycleTicker(ul, ms) {
     const items = [...ul.children]; let i = 0;
-    if (reduced || items.length < 2) { items.forEach(li => li.classList.add('on')); return; }
+    // animations réduites : les noms changent quand même, sans mouvement (le CSS coupe la transition) ;
+    // les afficher tous en même temps les empilait les uns sur les autres
+    if (items.length < 2) return;
     setInterval(() => {
       if (document.hidden) return;
       items[i].classList.remove('on'); i = (i + 1) % items.length; items[i].classList.add('on');
@@ -291,10 +293,18 @@
 
   /* ---------------- carte ---------------- */
   const cam = $('#cam');
+  // le fond (pays voisins, lacs) s'arrête à un rectangle (-600..1600) : on le fond vers ses bords,
+  // sinon une coupure nette apparaît sur grand écran
+  const FADE = {x: -600, y: -600, w: 2200, h: 2100};
   cam.innerHTML = `
-    <path class="m-neigh" d="${MAP.neighbours}"/>
+    <defs>
+      <radialGradient id="baseFadeG" cx=".5" cy=".5" r=".5"><stop offset=".55" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+      <mask id="baseFade" maskUnits="userSpaceOnUse" x="${FADE.x}" y="${FADE.y}" width="${FADE.w}" height="${FADE.h}">
+        <rect x="${FADE.x}" y="${FADE.y}" width="${FADE.w}" height="${FADE.h}" fill="url(#baseFadeG)"/></mask>
+    </defs>
+    <path class="m-neigh" d="${MAP.neighbours}" mask="url(#baseFade)"/>
     <g class="m-prov">${Object.values(MAP.provinces).map(d => `<path d="${d}"/>`).join('')}</g>
-    <path class="m-lakes" d="${MAP.lakes}"/>
+    <path class="m-lakes" d="${MAP.lakes}" mask="url(#baseFade)"/>
     <path class="m-border" d="${MAP.rwanda}"/>
     <g id="routeBase"></g><g class="m-route" id="route"></g>
     <g id="labels"></g><g id="pins"></g>`;
@@ -365,10 +375,17 @@
         (bottom - 26) / Math.max(y1 - c.y, 1));
       c.z = Math.max(.6, Math.min(c.zoom, sc / base));
     });
-    // vue d'ensemble : décale le centre pour que les noms tout à gauche (Tchibati) ne soient pas coupés
-    const allPts = Object.values(pins).map(p => [p.x, p.y]);
-    const minX = Math.min(...allPts.map(p => p[0]));
-    CAMS.all.x = Math.min(470, minX + (vw / 2 - 120) / base);
+    // vue d'ensemble : tous les repères visibles, du nom de Tchibati (à gauche) à l'épingle d'Akagera (à droite) ;
+    // sur téléphone la carte recule un peu plutôt que de couper un lieu
+    const xs = Object.values(pins).map(p => p.x);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    // écrans étroits (< 380 px) : en vue d'ensemble, les noms des lieux sont masqués (épingles + villes de départ),
+    // la carte reste grande ; chaque nom apparaît quand son étape devient active
+    const compact = vw < 380;
+    stage.classList.toggle('compact', compact);
+    const leftPad = 16 + (compact ? 14 : vw < 420 ? 82 : 104), rightPad = 16 + 14;
+    CAMS.all.z = Math.min(1, (vw - leftPad - rightPad) / ((maxX - minX) * base));
+    CAMS.all.x = Math.min(470, minX + (vw / 2 - leftPad) / (base * CAMS.all.z));
   }
   const cur = {x: CAMS.all.x, y: CAMS.all.y, lz: 0, prog: 0};
   let target = CAMS.all, targetProg = 0, stateKey = '';
@@ -488,5 +505,5 @@
 
   I18N.localizeLinks();   // liens internes : gardent la langue choisie
   addEventListener('resize', () => { resize(); dirty = true; lastY = -1; });
-  resize(); cur.x = CAMS.all.x; applyCam(); requestAnimationFrame(frame);
+  resize(); cur.x = CAMS.all.x; cur.lz = Math.log(CAMS.all.z); applyCam(); requestAnimationFrame(frame);
 })();

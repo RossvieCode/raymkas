@@ -123,7 +123,7 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .trip-photo{position:relative;aspect-ratio:4/3;margin:0;background:var(--surface-2)}
 .trip-photo img{width:100%;height:100%;object-fit:cover}
 .trip-date{position:absolute;top:14px;left:14px;display:flex;flex-direction:column;align-items:center;min-width:64px;padding:8px 10px 9px;
-  border-radius:14px;background:var(--white);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  border-radius:14px;background:var(--sun);color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.3)}
 .trip-date b{font-family:var(--display);font-size:34px;line-height:1;font-weight:400}
 .trip-date span{font:800 11px/1 var(--wide);font-stretch:125%;letter-spacing:.16em;text-transform:uppercase;margin-top:4px}
 .trip-body{padding:22px 20px 24px}
@@ -163,7 +163,7 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .stat-big .stat-n{font-size:clamp(110px,36vw,220px)}
 .stat-l{font-size:11.5px;letter-spacing:.18em;line-height:1.5;color:var(--muted)}
 .odo{display:inline-flex;align-items:flex-start;color:var(--white)}
-.odo-col{display:inline-block;height:1em;overflow:hidden;line-height:1em}
+.odo-col{display:inline-block;flex-shrink:0;height:1em;overflow:hidden;line-height:1em}
 .odo-strip{display:flex;flex-direction:column;transition:transform calc(1.6s + var(--i) * .35s) cubic-bezier(.16,1,.3,1)}
 .odo-strip span{display:block;height:1em;line-height:1em}
 .odo-suf{color:var(--sun);line-height:1em}
@@ -174,6 +174,8 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 @media (min-width:760px){
   .stats-grid{grid-template-columns:1.6fr 1fr 1fr;align-items:end}
   .stat-big{grid-column:auto;padding-bottom:0;border-bottom:0}
+  /* « 500+ » doit tenir dans sa colonne (1,6 fr) : sinon les chiffres se compriment et se chevauchent */
+  .stat-big .stat-n{font-size:clamp(110px,14vw,160px)}
 }
 
 /* ---------- journey : carte sticky ---------- */
@@ -203,6 +205,7 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .pin.origin.active .dot{fill:var(--sun)}
 .pin.origin text{font-size:10px;letter-spacing:.24em;opacity:.9}
 .journey.overview .pin .body,.journey.overview .pin text{opacity:.95}
+.journey.overview .stage.compact .pin:not(.origin) text{opacity:0}
 @keyframes pulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
 
 /* voile en haut de la carte : le compteur et le nom restent lisibles au-dessus des tracés */
@@ -358,12 +361,13 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 @media (max-width:479px){.s-top .tl-long{display:none}}
 @media (min-width:600px){.s-top{padding-left:28px;padding-right:28px}}
 .s-head{padding-top:36px}
-.s-head h1{font-size:clamp(52px,15vw,120px);line-height:.88;margin-top:10px}
-.s-title{display:flex;align-items:center;gap:16px;margin-top:10px}
+.s-head h1{font-size:clamp(44px,14vw,120px);line-height:.88;margin-top:10px}
+.s-title{display:flex;align-items:center;gap:clamp(10px,3vw,16px);margin-top:10px}
 .s-title h1{margin-top:0}
 .s-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;
-  width:clamp(84px,22vw,118px);aspect-ratio:1;border-radius:22px;background:var(--white);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.3)}
-.s-badge b{font-size:clamp(44px,12vw,64px);line-height:.95;font-weight:400}
+  width:clamp(72px,22vw,118px);aspect-ratio:1;border-radius:clamp(18px,5vw,22px);background:var(--sun);color:var(--ink);
+  box-shadow:0 14px 34px rgba(0,0,0,.32),inset 0 -3px 0 rgba(var(--ink-rgb),.12)}
+.s-badge b{font-size:clamp(38px,12vw,64px);line-height:.95;font-weight:400}
 .s-badge span{font:800 clamp(12px,3.2vw,15px)/1 var(--wide);font-stretch:125%;letter-spacing:.18em;text-transform:uppercase;margin-top:4px}
 /* compte à rebours */
 .s-countdown{display:flex;gap:8px;margin-top:20px}
@@ -467,4 +471,14 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
   .foot .wrap{max-width:1080px}
   .foot-grid{grid-template-columns:1.2fr 1fr auto;align-items:start;gap:40px}
   .foot-nav{flex-direction:column;gap:0}
+}
+
+/* très petits écrans (iPhone SE 1re gén., Android compacts) : boutons sur une ligne */
+@media (max-width:419px){
+  .pin text{font-size:10px;letter-spacing:.14em}
+  .pin.origin text{font-size:9.5px;letter-spacing:.18em}
+}
+@media (max-width:359px){
+  .btn{padding:0 16px;font-size:11.5px;letter-spacing:.08em}
+  .hero-title .lead{letter-spacing:.2em}
 }
