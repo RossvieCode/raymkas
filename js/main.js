@@ -293,18 +293,16 @@
 
   /* ---------------- carte ---------------- */
   const cam = $('#cam');
-  // le fond (pays voisins, lacs) s'arrête à un rectangle (-600..1600) : on le fond vers ses bords,
-  // sinon une coupure nette apparaît sur grand écran
-  const FADE = {x: -600, y: -600, w: 2200, h: 2100};
+  // le fond (pays voisins, lacs) s'arrête à un rectangle (-600..1600) : on le fond vers ses bords avec un
+  // dégradé de remplissage (léger), pas un <mask> (recalculé à chaque image pendant le défilement : saccades)
+  const fadeGrad = (id, rgb, a) => `<radialGradient id="${id}" gradientUnits="userSpaceOnUse" cx="500" cy="450" r="1050">
+      <stop offset=".55" stop-color="rgb(${rgb})" stop-opacity="${a}"/><stop offset="1" stop-color="rgb(${rgb})" stop-opacity="0"/></radialGradient>`;
   cam.innerHTML = `
-    <defs>
-      <radialGradient id="baseFadeG" cx=".5" cy=".5" r=".5"><stop offset=".55" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
-      <mask id="baseFade" maskUnits="userSpaceOnUse" x="${FADE.x}" y="${FADE.y}" width="${FADE.w}" height="${FADE.h}">
-        <rect x="${FADE.x}" y="${FADE.y}" width="${FADE.w}" height="${FADE.h}" fill="url(#baseFadeG)"/></mask>
-    </defs>
-    <path class="m-neigh" d="${MAP.neighbours}" mask="url(#baseFade)"/>
+    <defs>${fadeGrad('fadeNeighFill', '247,243,236', .05)}${fadeGrad('fadeNeighLine', '247,243,236', .18)}
+      ${fadeGrad('fadeLakeFill', '120,190,215', .22)}${fadeGrad('fadeLakeLine', '247,243,236', .45)}</defs>
+    <path class="m-neigh" d="${MAP.neighbours}" style="fill:url(#fadeNeighFill);stroke:url(#fadeNeighLine)"/>
     <g class="m-prov">${Object.values(MAP.provinces).map(d => `<path d="${d}"/>`).join('')}</g>
-    <path class="m-lakes" d="${MAP.lakes}" mask="url(#baseFade)"/>
+    <path class="m-lakes" d="${MAP.lakes}" style="fill:url(#fadeLakeFill);stroke:url(#fadeLakeLine)"/>
     <path class="m-border" d="${MAP.rwanda}"/>
     <g id="routeBase"></g><g class="m-route" id="route"></g>
     <g id="labels"></g><g id="pins"></g>`;
@@ -359,7 +357,7 @@
   // Zone sûre de la carte : sous le compteur et le nom (HUD) en haut, et au-dessus du fondu du bas
   // (les 16 % inférieurs de la carte deviennent transparents et laissent voir les photos qui défilent dessous).
   // Les repères cadrés (destination + villes de départ) et leurs noms restent toujours dans cette zone.
-  const HUD_H = 46, FADE_BOTTOM = .16;
+  const HUD_H = 46, FADE_BOTTOM = .2;   // voile du bas : 78 % → 88 % (style.css, .stage::after)
   let vw = 0, vh = 0, base = 1, camY = 0;
   function resize() {
     vw = stage.clientWidth; vh = stage.clientHeight;
