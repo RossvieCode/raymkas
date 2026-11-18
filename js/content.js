@@ -31,7 +31,7 @@ window.UPCOMING = [
     key: 'nyungwe',               // même clé que l'expérience (carte + lien dans sa fiche)
     title: 'Nyungwe',
     date: '2026-12-06',
-    price: T('55 $', '$55'),
+    price: T('50 $', '$50'),
     priceNote: T('tout compris', 'all inclusive'),
     // priceFrom: 'Bukavu',       // si le prix ne vaut que pour une ville : depuis les autres, le message WhatsApp demande le prix
     photo: 'assets/img/nyungwe-1.jpg',
