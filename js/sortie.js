@@ -31,6 +31,8 @@
   if (!t0) {
     $('#sCount').textContent = t('sortie.soon');
     $('#sMapWrap').remove();
+    $('#sBadge').remove();        // sinon le badge de date restait affiché, vide
+    $('#sCountdown').remove();
     $('#sTrips').innerHTML = `<div class="trip trip-empty"><div class="trip-body">
       <p class="trip-text">${t('sortie.empty')}</p>
       <div class="trip-cta"><a class="btn btn-sun" data-whatsapp>${t('sortie.notify')}</a></div></div></div>`;
