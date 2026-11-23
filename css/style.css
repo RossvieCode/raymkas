@@ -141,6 +141,26 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
 .trip-cta .btn{height:54px}
 @media (min-width:600px) and (max-width:899px){.trip-cta{grid-template-columns:1fr 1fr}}
 
+/* affiche (poster) : montrée en entier, sans recadrage */
+.trip-photo.is-poster{aspect-ratio:4/5}
+.trip-photo.is-poster img{object-fit:contain}
+
+/* bouton de réservation : reflet qui passe, halo qui respire, flèche qui avance */
+.btn-book{position:relative;overflow:hidden;isolation:isolate;gap:10px;
+  box-shadow:0 0 0 0 rgba(242,193,78,.55);animation:book-pulse 2.6s ease-out infinite}
+.btn-book::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.75) 50%,transparent 70%);
+  transform:translateX(-120%);animation:book-shine 3.4s ease-in-out infinite}
+.btn-book .btn-arrow{flex:none;transition:transform .35s var(--ease)}
+.btn-book:hover,.btn-book:focus-visible{background:#ffd56a;transform:translateY(-3px);animation:none;
+  box-shadow:0 14px 34px rgba(242,193,78,.45),0 0 0 4px rgba(242,193,78,.25)}
+.btn-book:hover .btn-arrow,.btn-book:focus-visible .btn-arrow{transform:translateX(5px)}
+.btn-book:active{transform:translateY(0) scale(.96)}
+.trip-cta .btn-book:nth-child(2),.trip-cta .btn-book:nth-child(2)::before{animation-delay:1.3s}
+@keyframes book-pulse{0%{box-shadow:0 0 0 0 rgba(242,193,78,.55)}70%,100%{box-shadow:0 0 0 14px rgba(242,193,78,0)}}
+@keyframes book-shine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+@media (prefers-reduced-motion:reduce){.btn-book,.btn-book::before{animation:none}.btn-book::before{display:none}}
+
 /* rappel « prochaine sortie » en bas de l'accueil */
 .cta-next{display:flex;align-items:center;gap:18px;max-width:460px;margin:0 auto clamp(56px,9svh,88px);padding:16px 22px 16px 16px;border-radius:22px;
   text-align:left;color:var(--white);border:1.5px solid var(--sun);transition:background-color .3s,transform .3s var(--ease)}
@@ -404,6 +424,7 @@ p,blockquote{text-wrap:pretty}                 /* pas de mot orphelin en fin de 
   .page-sortie .wrap{max-width:1040px}
   .page-sortie .trip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
   .page-sortie .trip-photo{aspect-ratio:auto;min-height:100%}
+  .page-sortie .trip-photo.is-poster{aspect-ratio:4/5;min-height:0;align-self:start}
   .page-sortie .trip-body{padding:34px}
 }
 

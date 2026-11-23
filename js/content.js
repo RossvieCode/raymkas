@@ -31,11 +31,13 @@ window.UPCOMING = [
     key: 'nyungwe',               // même clé que l'expérience (carte + lien dans sa fiche)
     title: 'Nyungwe',
     date: '2026-12-06',
-    price: T('50 $', '$50'),
+    price: T('55 $', '$55'),
     priceNote: T('tout compris', 'all inclusive'),
     // priceFrom: 'Bukavu',       // si le prix ne vaut que pour une ville : depuis les autres, le message WhatsApp demande le prix
-    photo: 'assets/img/nyungwe-1.jpg',
-    photoAlt: T('Un voyageur sur la passerelle suspendue au-dessus de la forêt de Nyungwe', 'A traveller on the suspended walkway above Nyungwe forest'),
+    photo: 'assets/img/nyungwe-affiche.jpg',
+    poster: true,                 // la photo est une affiche : affichée en entier (format 4:5), sans pastille de date
+    photoAlt: T('Affiche de la sortie au parc de Nyungwe le 6 décembre 2026 : 55 $ par personne, canopy walk, nature walk, tyrolienne et cueillette de thé',
+                'Poster for the Nyungwe park trip on 6 December 2026: $55 per person, canopy walk, nature walk, zipline and tea harvesting'),
     text: T('Passerelle suspendue au-dessus des arbres, tyrolienne et cascade, au cœur de l’une des plus vieilles forêts d’Afrique.',
             'A walkway suspended above the trees, a zipline and a waterfall, deep in one of Africa’s oldest forests.'),
     includes: T(['Transport depuis Goma ou Bukavu', 'Entrées du parc : passerelle et tyrolienne', 'Un guide pendant toute la sortie', 'Un photographe pour tes souvenirs'],

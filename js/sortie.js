@@ -130,9 +130,9 @@
     const msg = o => t(!trip.priceFrom || trip.priceFrom === o ? 'sortie.msgBook' : 'sortie.msgBookAsk',
       {brand: SITE.brand, t: trip.title, date: LANG === 'en' ? longDate : longDate.toLowerCase(), p: trip.price, o});
     return `<article class="trip">
-      <figure class="trip-photo">
+      <figure class="trip-photo${trip.poster ? ' is-poster' : ''}">
         <img src="${trip.photo}" srcset="${srcsetOf(trip.photo)}" sizes="(min-width: 900px) 480px, 92vw" alt="${esc(trip.photoAlt || trip.title)}" decoding="async">
-        <span class="trip-date"><b>${trip.day.getDate()}</b><span>${esc(NEXT.monthShort(trip))}</span></span>
+        ${trip.poster ? '' : `<span class="trip-date"><b>${trip.day.getDate()}</b><span>${esc(NEXT.monthShort(trip))}</span></span>`}
       </figure>
       <div class="trip-body">
         <h2 class="display trip-name">${esc(trip.title)}</h2>
@@ -140,7 +140,7 @@
         <p class="trip-text">${esc(trip.text)}</p>
         <div class="trip-price"><b class="display">${esc(trip.price)}</b><span>${esc(trip.priceNote)}</span></div>
         <ul class="trip-inc">${trip.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
-        <div class="trip-cta">${trip.origins.map(o => `<a class="btn btn-sun" href="${wa(msg(o))}" target="_blank" rel="noopener">${t('sortie.bookFrom', {o: esc(o)})}</a>`).join('')}</div>
+        <div class="trip-cta">${trip.origins.map(o => `<a class="btn btn-sun btn-book" href="${wa(msg(o))}" target="_blank" rel="noopener"><span>${t('sortie.bookFrom', {o: esc(o)})}</span><svg class="btn-arrow" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>`).join('')}</div>
       </div>
     </article>`;
   }).join('');

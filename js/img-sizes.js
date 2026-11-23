@@ -35,6 +35,7 @@ window.IMG_W = {
   'assets/img/kibuye-groupe.jpg': [960, 1600],
   'assets/img/kibuye-vaches.jpg': [960, 1600],
   'assets/img/nyungwe-1.jpg': [720, 1050],
+  'assets/img/nyungwe-affiche.jpg': [720, 1024],
   'assets/img/nyungwe-2.jpg': [720, 1050],
   'assets/img/nyungwe-3.jpg': [720, 1050],
   'assets/img/nyungwe-4.jpg': [720, 1050],
